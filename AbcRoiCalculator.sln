@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30002.166
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbcRoiCalculatorApp", "src\server\AbcRoiCalculatorApp\AbcRoiCalculatorApp.csproj", "{9689D0BA-5B4E-460B-9B57-638D979D9D8C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AbcRoiCalculatorApp", "src\server\AbcRoiCalculatorApp\AbcRoiCalculatorApp.csproj", "{9689D0BA-5B4E-460B-9B57-638D979D9D8C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExchangeRateService", "ExchangeRateService\ExchangeRateService.csproj", "{455648A7-8CDE-4D2A-8EE1-26A2CD163798}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{9689D0BA-5B4E-460B-9B57-638D979D9D8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9689D0BA-5B4E-460B-9B57-638D979D9D8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9689D0BA-5B4E-460B-9B57-638D979D9D8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{455648A7-8CDE-4D2A-8EE1-26A2CD163798}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{455648A7-8CDE-4D2A-8EE1-26A2CD163798}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{455648A7-8CDE-4D2A-8EE1-26A2CD163798}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{455648A7-8CDE-4D2A-8EE1-26A2CD163798}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
