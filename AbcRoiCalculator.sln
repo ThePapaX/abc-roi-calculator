@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.30002.166
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AbcRoiCalculatorApp", "src\server\AbcRoiCalculatorApp\AbcRoiCalculatorApp.csproj", "{9689D0BA-5B4E-460B-9B57-638D979D9D8C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExchangeRateService", "ExchangeRateService\ExchangeRateService.csproj", "{455648A7-8CDE-4D2A-8EE1-26A2CD163798}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{594ADC62-D6A7-4931-9AED-22090F19021E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExchangeRateService", "src\server\ExchangeRateService\ExchangeRateService.csproj", "{91234FA8-4F08-48BF-BFF8-8993D4DDF747}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +19,10 @@ Global
 		{9689D0BA-5B4E-460B-9B57-638D979D9D8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9689D0BA-5B4E-460B-9B57-638D979D9D8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9689D0BA-5B4E-460B-9B57-638D979D9D8C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{455648A7-8CDE-4D2A-8EE1-26A2CD163798}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{455648A7-8CDE-4D2A-8EE1-26A2CD163798}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{455648A7-8CDE-4D2A-8EE1-26A2CD163798}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{455648A7-8CDE-4D2A-8EE1-26A2CD163798}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91234FA8-4F08-48BF-BFF8-8993D4DDF747}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91234FA8-4F08-48BF-BFF8-8993D4DDF747}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91234FA8-4F08-48BF-BFF8-8993D4DDF747}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91234FA8-4F08-48BF-BFF8-8993D4DDF747}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
