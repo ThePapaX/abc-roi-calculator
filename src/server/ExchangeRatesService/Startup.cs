@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace ExchangeRateService
+namespace ExchangeRatesService
 {
     public class Startup
     {
@@ -31,7 +31,7 @@ namespace ExchangeRateService
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGrpcService<GreeterService>();
+                endpoints.MapGrpcService<ExchangeRatesService>();
 
                 endpoints.MapGet("/", async context =>
                 {

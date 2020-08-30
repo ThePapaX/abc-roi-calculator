@@ -2,12 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <UserSecretsId>0a51d395-6044-448c-b437-b7753371bf22</UserSecretsId>
+    <UserSecretsId>72908faf-8434-433a-87f4-2c1a5a43670b</UserSecretsId>
     <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+    <DockerfileContext>..\..\..</DockerfileContext>
   </PropertyGroup>
 
   <ItemGroup>
-    <Protobuf Include="Protos\greet.proto" GrpcServices="Server" />
+    <Protobuf Include="Protos\exchange_rates_service.proto" GrpcServices="Server" />
   </ItemGroup>
 
   <ItemGroup>

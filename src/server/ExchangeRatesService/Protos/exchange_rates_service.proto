@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+option csharp_namespace = "ExchangeRatesService";
+import "google/protobuf/struct.proto";
+
+package exchange_rates_service;
+
+// The Exchange Rates service definition.
+service ExchangeRatesProvider {
+  rpc GetRates (RatesRequest) returns (RatesResponse);
+}
+
+// The request message containing the user's name.
+message RatesRequest {
+  string base_currency = 1;
+}
+
+// The response message containing the greetings.
+message RatesResponse{
+  string date = 1;
+  string base_currency = 2;
+  google.protobuf.Struct rates = 3;
+}

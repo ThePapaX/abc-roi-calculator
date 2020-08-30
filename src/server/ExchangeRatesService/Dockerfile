@@ -10,16 +10,16 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-nanoserver-1903 AS build
 WORKDIR /src
-COPY ["ExchangeRateService/ExchangeRateService.csproj", "ExchangeRateService/"]
-RUN dotnet restore "ExchangeRateService/ExchangeRateService.csproj"
+COPY ["src/server/ExchangeRatesService/ExchangeRatesService.csproj", "src/server/ExchangeRatesService/"]
+RUN dotnet restore "src/server/ExchangeRatesService/ExchangeRatesService.csproj"
 COPY . .
-WORKDIR "/src/ExchangeRateService"
-RUN dotnet build "ExchangeRateService.csproj" -c Release -o /app/build
+WORKDIR "/src/src/server/ExchangeRatesService"
+RUN dotnet build "ExchangeRatesService.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "ExchangeRateService.csproj" -c Release -o /app/publish
+RUN dotnet publish "ExchangeRatesService.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "ExchangeRateService.dll"]
+ENTRYPOINT ["dotnet", "ExchangeRatesService.dll"]
