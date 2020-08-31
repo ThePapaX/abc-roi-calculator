@@ -1,27 +1,52 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Json;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
+using Google.Protobuf.WellKnownTypes;
 
 namespace ExchangeRatesService
 {
+    public class FxResponse
+    {
+        public string Date { get; set; }
+        public string Base { get; set; }
+        public Dictionary<string, double> Rates { get; set; }
+    }
+
     public class ExchangeRatesService : ExchangeRatesProvider.ExchangeRatesProviderBase
     {
+        private readonly IHttpClientFactory _httpClientFactory;
         private readonly ILogger<ExchangeRatesService> _logger;
-        public ExchangeRatesService(ILogger<ExchangeRatesService> logger)
+        
+        public ExchangeRatesService(IHttpClientFactory httpClientFactory, ILogger<ExchangeRatesService> logger)
         {
+            _httpClientFactory = httpClientFactory;
             _logger = logger;
         }
 
-        public override Task<RatesResponse> GetRates(RatesRequest request, ServerCallContext context)
+        public override async Task<RatesResponse> GetRates(RatesRequest request, ServerCallContext context)
         {
-            // External service call here.
-            return Task.FromResult(new RatesResponse
+            var serializeOptions = new JsonSerializerOptions
             {
-                BaseCurrency = "USD",
-            });
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            };
+
+            var httpClient = _httpClientFactory.CreateClient("ExchangeRateHttpClient");
+            var uri = $"https://api.exchangeratesapi.io/latest?base={request.BaseCurrency}";
+
+            var apiResponse = await httpClient.GetFromJsonAsync<FxResponse>(uri, serializeOptions);
+
+            var result = new RatesResponse() { BaseCurrency = request.BaseCurrency, Date = apiResponse.Date };
+            result.Rates.Add(apiResponse.Rates);
+
+            //TODO: cache this result.
+
+            return result;
         }
     }
 }
