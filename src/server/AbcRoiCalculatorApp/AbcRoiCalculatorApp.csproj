@@ -10,6 +10,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation.AspNetCore" Version="9.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.7" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.7" />
   </ItemGroup>
 
@@ -21,20 +23,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <None Include="ReactApp\.eslintrc.json" />
+    <None Include="ReactApp\.eslintrc.json" />
+    <None Include="ReactApp\package-lock.json" />
+    <None Include="ReactApp\package-lock.json" />
+    <None Include="ReactApp\package.json" />
+    <None Include="ReactApp\package.json" />
+    <None Include="ReactApp\public\manifest.json" />
+    <None Include="ReactApp\public\manifest.json" />
+    <None Include="ReactApp\tsconfig.json" />
+    <None Include="ReactApp\tsconfig.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="ReactApp\.eslintrc.json" />
-    <None Include="ReactApp\.eslintrc.json" />
-    <None Include="ReactApp\package-lock.json" />
-    <None Include="ReactApp\package-lock.json" />
-    <None Include="ReactApp\package.json" />
-    <None Include="ReactApp\package.json" />
-    <None Include="ReactApp\public\manifest.json" />
-    <None Include="ReactApp\public\manifest.json" />
-    <None Include="ReactApp\tsconfig.json" />
-    <None Include="ReactApp\tsconfig.json" />
+    <ProjectReference Include="..\ExchangeRateServiceClient\ExchangeRateServiceClient.csproj" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
