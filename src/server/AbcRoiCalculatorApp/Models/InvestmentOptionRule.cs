@@ -1,65 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Security.Cryptography.Xml;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Reflection.Metadata.Ecma335;
+using System.Threading.Tasks;
 
 namespace AbcRoiCalculatorApp.Models
 {
-    public class InvestmentOptionRule : InvestmentOption
+    public class InvestmentOptionRule : IComparable<InvestmentOptionRule>
     {
-        public SortedList<double, InvestmentOptionRange> RangeRules { get; set; }
-
-        public InvestmentOptionRule(InvestmentOption investmentOption) : base(investmentOption.Id, investmentOption.Name,  investmentOption.AllocatedProportion)
+        public double From { get; set; }
+        public double To { get; set; }
+        public double Roi { get; set; }
+        public double Fee { get; set; }
+        public InvestmentOptionRule(double from, double to, double roi, double fee)
         {
-            // Conditions:
-            // - The Rules do not overlap.
-            // - There must be at least one Rule.
-            // E.G if for any investment for the current option the Roi is 10% and Fee: .5%
-            // It implies that there is a single rule with From=0, To=1, Roi=.1, Fee= 0.05
-
-            // TODO: Maybe we can use a single LIST and sort if after initialization ? to make it simpler.
-            RangeRules = new SortedList<double, InvestmentOptionRange>(new InvestmentOptionRangeComparer());
-        }
-        public InvestmentOptionRule(int id, string name, double allocatedProportion) : base(id, name, allocatedProportion)
-        {
-            RangeRules = new SortedList<double, InvestmentOptionRange>(new InvestmentOptionRangeComparer());
+            From = from;
+            To = to;
+            Roi = roi;
+            Fee = fee;
         }
 
-        public void AddRule(InvestmentOptionRange roiRule) => RangeRules.Add(roiRule.To, roiRule);
-
-        public IEnumerable<InvestmentOptionRange> GetRules() => RangeRules.Values;
-
-        private InvestmentOptionRange GetApplicableRule(double investmentProportion)
+        /// <summary>method <c>IsApplicable</c> checks if the investment allocation is within this Rule's bounds.</summary>
+        public bool IsApplicableForProportion(double investmentProportion)
         {
-            foreach (KeyValuePair<double, InvestmentOptionRange> keyValuePair in RangeRules)
-            {
-                if (keyValuePair.Value.IsApplicableForProportion(investmentProportion))
-                {
-                    return keyValuePair.Value;
-                }
-            }
-
-            return null;
+            return (From.CompareTo(investmentProportion) <= 0) && (investmentProportion.CompareTo(To) <= 0);
         }
 
-        public RoiResult CalculateRoiForAmount(double investmentAmount)
+        public int CompareTo([AllowNull] InvestmentOptionRule other)
         {
-            if (AllocatedProportion < 0 || AllocatedProportion > 1)
-            {
-                throw new InvalidOperationException();
-            }
+            throw new NotImplementedException();
+        }
+    }
 
-            var roi = new RoiResult();
-            var applicableRule = GetApplicableRule(AllocatedProportion);
+    class InvestmentOptionRangeComparer : IComparer<double>
+    {
 
-            if (applicableRule == null)
-            {
-                throw new Exception($"CONFIGURATION_ERROR: Could not find a valid rule for this option. Option: ${this.Id} ${this.Name}");
-            }
+        // Using the upper bound "To" as the sorting value;
+        public int Compare([AllowNull] InvestmentOptionRule x, [AllowNull] InvestmentOptionRule y)
+        {
+            return x.To.CompareTo(y.To);
+        }
 
-            roi.Value = applicableRule.Roi * investmentAmount;
-            roi.Fee = applicableRule.Fee * roi.Value; //the fee is applied to the ROI result as per requirements.
-
-            return roi;
+        public int Compare([AllowNull] double x, [AllowNull] double y)
+        {
+            return x.CompareTo(y);
         }
     }
 }

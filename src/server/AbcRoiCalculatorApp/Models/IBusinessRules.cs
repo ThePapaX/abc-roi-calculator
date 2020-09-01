@@ -7,7 +7,7 @@ namespace AbcRoiCalculatorApp.Models
 {
     public interface IBusinessRules
     {
-        public Dictionary<int, InvestmentOptionRule> InvestmentBusinessRules { get; set; }
+        public Dictionary<int, InvestmentOption> InvestmentBusinessRules { get; set; }
         public double BaseFee { get; set; }
        
         public string BaseCurrency { get; set; }

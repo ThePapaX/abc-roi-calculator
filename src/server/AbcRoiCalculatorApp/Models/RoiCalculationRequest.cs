@@ -14,7 +14,7 @@ namespace AbcRoiCalculatorApp.Models
         
         public double InvestmentAmount { get; set; }
         
-        public List<InvestmentOption> InvestmentOptions { get; set; }
+        public List<InvestmentOptionBase> InvestmentOptions { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {

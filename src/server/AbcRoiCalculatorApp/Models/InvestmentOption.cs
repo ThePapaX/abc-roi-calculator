@@ -1,39 +1,65 @@
-﻿using Microsoft.AspNetCore.Mvc.Localization;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Security.Cryptography.Xml;
 
 namespace AbcRoiCalculatorApp.Models
 {
-    public class InvestmentOption : IEquatable<InvestmentOption>
+    public class InvestmentOption : InvestmentOptionBase
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public double AllocatedProportion { get; set; }
-        
-        public InvestmentOption(int id, string name, double allocatedProportion = 0)
+        public SortedList<double, InvestmentOptionRule> Rules { get; set; }
+
+        public InvestmentOption(InvestmentOptionBase investmentOption) : base(investmentOption.Id, investmentOption.Name,  investmentOption.AllocatedProportion)
         {
-            Id = id;
-            Name = name;
-            AllocatedProportion = allocatedProportion;
+            // Conditions:
+            // - The Rules do not overlap.
+            // - There must be at least one Rule.
+            // E.G if for any investment for the current option the Roi is 10% and Fee: .5%
+            // It implies that there is a single rule with From=0, To=1, Roi=.1, Fee= 0.05
+
+            // TODO: Maybe we can use a single LIST and sort if after initialization ? to make it simpler.
+            Rules = new SortedList<double, InvestmentOptionRule>(new InvestmentOptionRangeComparer());
+        }
+        public InvestmentOption(int id, string name, double allocatedProportion) : base(id, name, allocatedProportion)
+        {
+            Rules = new SortedList<double, InvestmentOptionRule>(new InvestmentOptionRangeComparer());
         }
 
-        public bool Equals([AllowNull] InvestmentOption other) => this.Id == other.Id;
+        public void AddRule(InvestmentOptionRule roiRule) => Rules.Add(roiRule.To, roiRule);
 
-        public override bool Equals(object obj)
+        public IEnumerable<InvestmentOptionRule> GetRules() => Rules.Values;
+
+        private InvestmentOptionRule GetApplicableRule(double investmentProportion)
         {
-            return this.Equals(obj as InvestmentOption);
+            foreach (KeyValuePair<double, InvestmentOptionRule> keyValuePair in Rules)
+            {
+                if (keyValuePair.Value.IsApplicableForProportion(investmentProportion))
+                {
+                    return keyValuePair.Value;
+                }
+            }
+
+            return null;
         }
 
-        public override int GetHashCode()
+        public RoiResult CalculateRoiForAmount(double investmentAmount)
         {
-            return base.GetHashCode();
-        }
+            if (AllocatedProportion < 0 || AllocatedProportion > 1)
+            {
+                throw new InvalidOperationException();
+            }
 
-        public static bool operator == (InvestmentOption lhs, InvestmentOption rhs) => lhs.Id == rhs.Id;
-        public static bool operator !=(InvestmentOption lhs, InvestmentOption rhs) => lhs.Id != rhs.Id;
+            var roi = new RoiResult();
+            var applicableRule = GetApplicableRule(AllocatedProportion);
+
+            if (applicableRule == null)
+            {
+                throw new Exception($"CONFIGURATION_ERROR: Could not find a valid rule for this option. Option: ${this.Id} ${this.Name}");
+            }
+
+            roi.Value = applicableRule.Roi * investmentAmount;
+            roi.Fee = applicableRule.Fee * roi.Value; //the fee is applied to the ROI result as per requirements.
+
+            return roi;
+        }
     }
 }

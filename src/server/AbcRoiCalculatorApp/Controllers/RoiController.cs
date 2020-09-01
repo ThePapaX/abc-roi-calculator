@@ -21,10 +21,10 @@ namespace AbcRoiCalculatorApp.Controllers
         }
         // GET: api/<RoiController>
         [HttpGet]
-        public IEnumerable<InvestmentOption> GetOptions()
+        public IEnumerable<InvestmentOptionBase> GetOptions()
         {
-            return new List<InvestmentOption>() {
-                new InvestmentOption(1, "Cash", 1)
+            return new List<InvestmentOptionBase>() {
+                new InvestmentOptionBase(1, "Cash", 1)
             };
         }
 
