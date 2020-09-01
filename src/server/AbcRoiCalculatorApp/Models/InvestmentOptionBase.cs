@@ -20,8 +20,12 @@ namespace AbcRoiCalculatorApp.Models
             Name = name;
             AllocatedProportion = allocatedProportion;
         }
+        public InvestmentOptionBase()
+        {
 
-        public bool Equals([AllowNull] InvestmentOptionBase other) => this.Id == other.Id;
+        }
+
+        public bool Equals([AllowNull] InvestmentOptionBase other) => this.Id == other?.Id;
 
         public override bool Equals(object obj)
         {

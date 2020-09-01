@@ -6,7 +6,7 @@ namespace AbcRoiCalculatorApp.Models
 {
     public class InvestmentOption : InvestmentOptionBase
     {
-        public SortedList<double, InvestmentOptionRule> Rules { get; set; }
+        public List<InvestmentOptionRule> Rules { get; set; }
 
         public InvestmentOption(InvestmentOptionBase investmentOption) : base(investmentOption.Id, investmentOption.Name,  investmentOption.AllocatedProportion)
         {
@@ -16,29 +16,35 @@ namespace AbcRoiCalculatorApp.Models
             // E.G if for any investment for the current option the Roi is 10% and Fee: .5%
             // It implies that there is a single rule with From=0, To=1, Roi=.1, Fee= 0.05
 
-            // TODO: Maybe we can use a single LIST and sort if after initialization ? to make it simpler.
-            Rules = new SortedList<double, InvestmentOptionRule>(new InvestmentOptionRangeComparer());
+
+            // new InvestmentOptionRangeComparer()
+            Rules = new List<InvestmentOptionRule>();
         }
         public InvestmentOption(int id, string name, double allocatedProportion) : base(id, name, allocatedProportion)
         {
-            Rules = new SortedList<double, InvestmentOptionRule>(new InvestmentOptionRangeComparer());
+            Rules = new List<InvestmentOptionRule>();
+        }
+        public InvestmentOption() : base() {
+            Rules = new List<InvestmentOptionRule>();
         }
 
-        public void AddRule(InvestmentOptionRule roiRule) => Rules.Add(roiRule.To, roiRule);
+        public void AddRule(InvestmentOptionRule roiRule) => Rules.Add(roiRule);
 
-        public IEnumerable<InvestmentOptionRule> GetRules() => Rules.Values;
+        public IEnumerable<InvestmentOptionRule> GetRules() => Rules;
 
         private InvestmentOptionRule GetApplicableRule(double investmentProportion)
         {
-            foreach (KeyValuePair<double, InvestmentOptionRule> keyValuePair in Rules)
-            {
-                if (keyValuePair.Value.IsApplicableForProportion(investmentProportion))
-                {
-                    return keyValuePair.Value;
-                }
-            }
+            return Rules.Find(rule => rule.IsApplicableForProportion(investmentProportion));
 
-            return null;
+            //foreach (KeyValuePair<double, InvestmentOptionRule> keyValuePair in Rules)
+            //{
+            //    if (keyValuePair.Value.IsApplicableForProportion(investmentProportion))
+            //    {
+            //        return keyValuePair.Value;
+            //    }
+            //}
+
+            //return null;
         }
 
         public RoiResult CalculateRoiForAmount(double investmentAmount)

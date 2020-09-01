@@ -11,9 +11,9 @@ namespace AbcRoiCalculatorApp.Models
     public class RoiCalculator
     {
         readonly ExchangeRateServiceClient.ExchangeRateServiceClient _exchangeRateClient;
-        readonly RoiConfiguration _roiConfiguration;
+        readonly RoiConfigurationOptions _roiConfiguration;
 
-        public RoiCalculator(ExchangeRateServiceClient.ExchangeRateServiceClient exchangeRateServiceClient, RoiConfiguration roiConfiguration)
+        public RoiCalculator(ExchangeRateServiceClient.ExchangeRateServiceClient exchangeRateServiceClient, RoiConfigurationOptions roiConfiguration)
         {
             _exchangeRateClient = exchangeRateServiceClient;
             _roiConfiguration = roiConfiguration;
@@ -48,7 +48,7 @@ namespace AbcRoiCalculatorApp.Models
             // Apply each rule to investment allocation and amount;
             request.InvestmentOptions.ForEach(option =>
             {
-                _roiConfiguration.InvestmentBusinessRules.TryGetValue(option.Id, out var optionRules);
+                var optionRules = _roiConfiguration.InvestmentBusinessRules.Find(op=> op.Id == option.Id);
 
                 var investmentAmountForOption = request.InvestmentAmount * option.AllocatedProportion;
 

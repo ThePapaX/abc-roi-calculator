@@ -15,24 +15,24 @@ namespace AbcRoiCalculatorApp.Controllers
     public class RoiController : ControllerBase
     {
         readonly RoiCalculator _roiCalculator;
-        public RoiController(RoiCalculator roiCalculatorInstance)
+        readonly IBusinessRules _roiConfiguration;
+        public RoiController(IBusinessRules roiConfiguration)
         {
-            _roiCalculator = roiCalculatorInstance;
+            //_roiCalculator = roiCalculatorInstance;
+            _roiConfiguration = roiConfiguration;
         }
         // GET: api/<RoiController>
         [HttpGet]
         public IEnumerable<InvestmentOptionBase> GetOptions()
         {
-            return new List<InvestmentOptionBase>() {
-                new InvestmentOptionBase(1, "Cash", 1)
-            };
+            return _roiConfiguration.InvestmentBusinessRules;
         }
 
         // POST api/<RoiController>
         [HttpPost("calculate")]
         public async Task<RoiCalculationResult> Calculate([FromBody] RoiCalculationRequest request)
         {
-            return await roical.Calculate(request);
+            return await _roiCalculator.Calculate(request);
         }
     }
 }

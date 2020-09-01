@@ -20,6 +20,10 @@ namespace AbcRoiCalculatorApp.Models
             Roi = roi;
             Fee = fee;
         }
+        public InvestmentOptionRule()
+        {
+
+        }
 
         /// <summary>method <c>IsApplicable</c> checks if the investment allocation is within this Rule's bounds.</summary>
         public bool IsApplicableForProportion(double investmentProportion)
