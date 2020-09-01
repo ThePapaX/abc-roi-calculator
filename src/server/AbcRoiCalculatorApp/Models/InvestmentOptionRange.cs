@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace AbcRoiCalculatorApp.Models
 {
-    public class RoiTierRule : IComparable<RoiTierRule>
+    public class InvestmentOptionRange : IComparable<InvestmentOptionRange>
     {
         public double From { get; set; }
         public double To { get; set; }
         public double Roi { get; set; }
         public double Fee { get; set; }
-        public RoiTierRule(double from, double to, double roi, double fee)
+        public InvestmentOptionRange(double from, double to, double roi, double fee)
         {
             From = from;
             To = to;
@@ -27,17 +27,17 @@ namespace AbcRoiCalculatorApp.Models
             return (From.CompareTo(investmentProportion) <= 0) && (investmentProportion.CompareTo(To) <= 0);
         }
 
-        public int CompareTo([AllowNull] RoiTierRule other)
+        public int CompareTo([AllowNull] InvestmentOptionRange other)
         {
             throw new NotImplementedException();
         }
     }
 
-    class RoiTierComparer : IComparer<double>
+    class InvestmentOptionRangeComparer : IComparer<double>
     {
 
         // Using the upper bound "To" as the sorting value;
-        public int Compare([AllowNull] RoiTierRule x, [AllowNull] RoiTierRule y)
+        public int Compare([AllowNull] InvestmentOptionRange x, [AllowNull] InvestmentOptionRange y)
         {
             return x.To.CompareTo(y.To);
         }

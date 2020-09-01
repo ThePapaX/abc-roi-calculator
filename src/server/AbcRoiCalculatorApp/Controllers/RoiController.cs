@@ -14,6 +14,11 @@ namespace AbcRoiCalculatorApp.Controllers
     [ApiController]
     public class RoiController : ControllerBase
     {
+        readonly RoiCalculator _roiCalculator;
+        public RoiController(RoiCalculator roiCalculatorInstance)
+        {
+            _roiCalculator = roiCalculatorInstance;
+        }
         // GET: api/<RoiController>
         [HttpGet]
         public IEnumerable<InvestmentOption> GetOptions()
@@ -27,7 +32,7 @@ namespace AbcRoiCalculatorApp.Controllers
         [HttpPost("calculate")]
         public async Task<RoiCalculationResult> Calculate([FromBody] RoiCalculationRequest request)
         {
-            return await RoiCalculator.Calculate(request);
+            return await roical.Calculate(request);
         }
     }
 }
