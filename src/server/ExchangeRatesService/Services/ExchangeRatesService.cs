@@ -22,7 +22,8 @@ namespace ExchangeRatesService
     {
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly ILogger<ExchangeRatesService> _logger;
-        
+
+
         public ExchangeRatesService(IHttpClientFactory httpClientFactory, ILogger<ExchangeRatesService> logger)
         {
             _httpClientFactory = httpClientFactory;
