@@ -57,7 +57,7 @@ namespace AbcRoiCalculatorApp.Models
             }
 
             roi.Value = applicableRule.Roi * investmentAmount;
-            roi.Fee = applicableRule.Fee * investmentAmount;
+            roi.Fee = applicableRule.Fee * roi.Value; //the fee is applied to the ROI result as per requirements.
 
             return roi;
         }
