@@ -67,5 +67,7 @@ namespace AbcRoiCalculatorApp.Models
 
             return roi;
         }
+
+        public bool ShouldSerializeRules() => false;
     }
 }

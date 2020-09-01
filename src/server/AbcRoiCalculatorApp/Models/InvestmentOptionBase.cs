@@ -39,5 +39,8 @@ namespace AbcRoiCalculatorApp.Models
 
         public static bool operator == (InvestmentOptionBase lhs, InvestmentOptionBase rhs) => lhs.Id == rhs.Id;
         public static bool operator !=(InvestmentOptionBase lhs, InvestmentOptionBase rhs) => lhs.Id != rhs.Id;
+
+        public bool ShouldSerializeAllocatedProportion() => false;
+
     }
 }
