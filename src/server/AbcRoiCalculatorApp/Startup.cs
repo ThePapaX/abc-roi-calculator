@@ -1,3 +1,4 @@
+using AbcRoiCalculatorApp.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Collections.Generic;
 
 namespace AbcRoiCalculatorApp
 {
@@ -21,7 +23,16 @@ namespace AbcRoiCalculatorApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddNewtonsoftJson();
+            services.AddSingleton<IBusinessRules>(br => {
+                var config = new RoiConfigurationOptions();
+                
+                // We are using the Options Pattern (https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/options?view=aspnetcore-3.1)
+                Configuration.GetSection(RoiConfigurationOptions.RoiConfiguration).Bind(config);
+
+                return config;
+            });
+
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
