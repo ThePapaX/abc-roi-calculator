@@ -9,7 +9,7 @@ export interface RoiCalculatorState {
     currentTabIndex: number;
     tabs :  Array<string>;
     investmentOptions : Array<InvestmentOption>;
-    investmentAllocation : Array<InvestmentOption>;
+    investmentAllocation : Array<InvestmentOptionGroup>;
     validation : ValidationState;
     isLoading : boolean;
 }
@@ -18,6 +18,10 @@ export interface InvestmentOption {
     id: number;
     name: string;
     allocatedProportion : number;
+}
+
+export interface InvestmentOptionGroup extends InvestmentOption{
+    groupId : number
 }
 
 export interface RoiCalculationResult {
