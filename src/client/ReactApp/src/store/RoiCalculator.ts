@@ -13,6 +13,8 @@ export interface InvestmentRowsState {
 }
 
 export interface RoiCalculatorState {
+    investmentAmount : number,
+    investedPercentage : number,
     currentTabIndex: number;
     tabs :  Array<string>;
     investmentOptions : Array<InvestmentOption>;
@@ -67,6 +69,8 @@ const defaultInvestmentAllocationRows = (): Array<InvestmentOptionGroup> => {
 
 const defaultState : RoiCalculatorState = {
     currentTabIndex : 0,
+    investmentAmount : 100000,
+    investedPercentage: 0,
     tabs : ['Investment Options', 'ROI'],
     investmentOptions : [],
     investmentAllocation : defaultInvestmentAllocationRows(),
@@ -129,12 +133,18 @@ export interface InvestmentOptionSelectedAction {
     optionId : number
 }
 
-
 export interface InvestmentOptionAllocationChangedAction {
     type : 'INVESTMENT_OPTION_ALLOCATION_CHANGED',
     groupId : number,
     allocation : number,
 }
+
+export interface InvestmentAmountChangedAction {
+    type : 'INVESTMENT_AMOUNT_CHANGED',
+    investmentAmount : number
+}
+
+
 /*
 onOptionSelected={(groupId: number, value: any)=>{ console.warn('OPTION_SELECTED on group:', groupId, 'value:', value)}}
             onOptionRemoved={(groupId: number, value: any)=>{ console.warn('ALLOCATION_CHANGE on group:', groupId, 'value:', value)}}
@@ -143,7 +153,7 @@ onOptionSelected={(groupId: number, value: any)=>{ console.warn('OPTION_SELECTED
 */
 // Declare a 'discriminated union' type. This guarantees that all references to 'type' properties contain one of the
 // declared type strings (and not any other arbitrary string).
-export type KnownAction = ChangeTabAction | RequestRoiCalculationAction | ReceiveRoiCalculationAction | RequestInvestmentOptionsAction | ReceiveInvestmentOptionsAction | InvestmentOptionRowAddedAction | InvestmentOptionRowRemovedAction |  InvestmentOptionSelectedAction | InvestmentOptionAllocationChangedAction;
+export type KnownAction = ChangeTabAction | InvestmentAmountChangedAction | RequestRoiCalculationAction | ReceiveRoiCalculationAction | RequestInvestmentOptionsAction | ReceiveInvestmentOptionsAction | InvestmentOptionRowAddedAction | InvestmentOptionRowRemovedAction |  InvestmentOptionSelectedAction | InvestmentOptionAllocationChangedAction;
 
 // ----------------
 // ACTION CREATORS - These are functions exposed to UI components that will trigger a state transition.
@@ -155,6 +165,7 @@ export const actionCreators = {
     removeInvestmentOption : (groupId : number) => ({type : 'INVESTMENT_OPTION_ROW_REMOVED', groupId} as InvestmentOptionRowRemovedAction),
     setInvestmentOption : (groupId : number, optionId : number)=> ({type : 'INVESTMENT_OPTION_SELECTED', groupId, optionId} as InvestmentOptionSelectedAction),
     setInvestmentAllocation : (groupId : number, allocation : number)=> ({type : 'INVESTMENT_OPTION_ALLOCATION_CHANGED', groupId, allocation} as InvestmentOptionAllocationChangedAction),
+    setInvestmentAmount  : (investmentAmount : any)=> ({type :'INVESTMENT_AMOUNT_CHANGED', investmentAmount } as InvestmentAmountChangedAction),
 
     
     requestInvestmentOptions: (): AppThunkAction<KnownAction> => (dispatch, getState) => {
@@ -164,7 +175,6 @@ export const actionCreators = {
             fetch(`https://localhost:44380/api/roi`)
                 .then(response => response.json() as Promise<Array<InvestmentOption>>)
                 .then(data => {
-                    console.warn(data);
                     dispatch({ type: 'RECEIVE_INVESTMENT_OPTIONS', investmentOptions : data });
                 });
 
@@ -188,9 +198,18 @@ const setInvestmentOptionForGroup = (state : RoiCalculatorState, groupId : numbe
     return { ...state, investmentAllocation : currentInvestments }
 }
 const setInvestmentAllocationForGroup = (state : RoiCalculatorState, groupId : number, allocation : number)=>{
-    const currentInvestments = state.investmentAllocation.map(inv => (inv.groupId === groupId) ? { ...inv, allocatedProportion: allocation } : inv)
-    return { ...state, investmentAllocation : currentInvestments }
+    let investedPercentage = 0;
+    const currentInvestments = state.investmentAllocation.map(inv => {
+        if(inv.groupId === groupId){
+            inv = { ...inv, allocatedProportion : allocation }
+        }
+        investedPercentage += inv.allocatedProportion ? inv.allocatedProportion : 0;
+
+        return inv;
+    });
+    return { ...state, investmentAllocation : currentInvestments, investedPercentage : investedPercentage }
 }
+
 
 
 // ----------------
@@ -205,6 +224,8 @@ export const reducer: Reducer<RoiCalculatorState> = (state: RoiCalculatorState |
     switch (action.type) {
         case 'CHANGE_TAB':
             return { ...state, currentTabIndex : action.tabIndex };
+        case 'INVESTMENT_AMOUNT_CHANGED':
+            return { ...state, investmentAmount : action.investmentAmount };
         case 'REQUEST_INVESTMENT_OPTIONS':
             return { ...state, isLoading : true };
         case 'RECEIVE_INVESTMENT_OPTIONS':

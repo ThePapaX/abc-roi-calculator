@@ -25,21 +25,26 @@ class RoiCalculator extends React.PureComponent<RoiCalculatorProps> {
             <Spinner />
         </Pane>);
     }
+    private isValidInvestmentAmount(){
+        return this.props.investmentAmount && this.props.investmentAmount > 0
+    }
+    private availableAmount = () => this.props.investmentAmount * (1 - this.props.investedPercentage / 100)
 
     private renderInvestmentPanel() {
         return (<React.Fragment>
             <TextInputField
-            isInvalid
+            isInvalid={!this.isValidInvestmentAmount()}
             required
             label="Investment amount"
             description="Total Investment in AUD."
             type = "number"
             min={0}
-            value = {100000}
-            validationMessage="This field is required"
+            value = {this.props.investmentAmount}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => this.props.setInvestmentAmount( event.target.value ? parseFloat(event.target.value) : '')}
+            validationMessage={ !this.isValidInvestmentAmount() ? "This field is invalid" : null}
         />
         
-        <Badge style={{textTransform:'none', display: 'inline'}} padding={8}>Available Amount: 100,000</Badge>
+        <Badge style={{textTransform:'none', display: 'inline'}} color={this.availableAmount() >= 0 ? 'neutral' : 'red'} padding={8}>Available Amount: {this.availableAmount()}</Badge>
         <InvestmentOptionsList 
             investmentOptions={this.props.investmentOptions} 
             investmentAllocation={this.props.investmentAllocation}

@@ -38,7 +38,7 @@ const InvestmentOptionRow: React.FC<InvestmentOptionRowProps> = (props => {
                 <TextInput width={150}
                     type="number"
                     value={props.currentInvestmentOption && props.currentInvestmentOption.allocatedProportion}
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => props.onAllocationChanged(props.groupId, event.target.value)}
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => props.onAllocationChanged(props.groupId, event.target.value ? parseFloat(event.target.value) : '')}
                     isInvalid={props.validation && !props.validation.allocation.isValid}
                 />
             </Pane>
