@@ -14,6 +14,8 @@ export interface InvestmentRowsState {
 }
 
 export interface RoiCalculatorState {
+    locale: string,
+    currency : string,
     investmentAmount : number,
     investedPercentage : number,
     currentTabIndex: number;
@@ -23,8 +25,8 @@ export interface RoiCalculatorState {
     validation : ValidationState;
     isLoading : boolean;
     investmentRowsState : InvestmentRowsState;
-    result? : RoiCalculationResult,
-    shouldRecalculate? : boolean
+    result : RoiCalculationResult,
+    shouldRecalculate? : boolean,
 }
 
 export interface InvestmentOption {
@@ -41,7 +43,7 @@ export interface RoiCalculationResult {
     total : number,
     fees : number,
     currency : string,
-    exchangeRateMetadata : any
+    exchangeRateMetadata? : any
 }
 
 export interface RoiCalculationRequest {
@@ -80,6 +82,8 @@ const getApplicableInvestments = (investmentAllocation : Array<InvestmentOptionG
 
 const defaultState : RoiCalculatorState = {
     currentTabIndex : 0,
+    locale : 'en-au',
+    currency : 'AUD',
     investmentAmount : 100000,
     investedPercentage: 0,
     tabs : ['Investment Options', 'ROI'],
@@ -95,6 +99,11 @@ const defaultState : RoiCalculatorState = {
         rowCount : 5,
         canAddRows : true,
         canRemoveRows : true
+    },
+    result : {
+        total: 0,
+        fees: 0,
+        currency : 'AUD',
     },
     isLoading : false
 }
@@ -245,6 +254,48 @@ export const actionCreators = {
         // Only load data if it's something we don't already have (and are not already loading)
         const appState = getState();
         if (appState && appState.roiCalculator && appState.roiCalculator.investmentOptions.length === 0) {
+            const data= [
+                {
+                    "id": 1,
+                    "name": "Cash investments"
+                },
+                {
+                    "id": 3,
+                    "name": "Fixed Interest"
+                },
+                {
+                    "id": 4,
+                    "name": "Shares"
+                },
+                {
+                    "id": 5,
+                    "name": "Managed Funds"
+                },
+                {
+                    "id": 6,
+                    "name": "Exchange traded funds"
+                },
+                {
+                    "id": 7,
+                    "name": "Investment bonds"
+                },
+                {
+                    "id": 8,
+                    "name": "Annuities"
+                },
+                {
+                    "id": 9,
+                    "name": "Listed Companies (LICs)"
+                },
+                {
+                    "id": 10,
+                    "name": "Real estate investment trusts"
+                }
+            ];
+            dispatch({ type: 'REQUEST_INVESTMENT_OPTIONS' });
+            dispatch({ type: 'RECEIVE_INVESTMENT_OPTIONS', investmentOptions : data });
+            return;
+
             fetch('/api/roi')
                 .then(response => response.json() as Promise<Array<InvestmentOption>>)
                 .then(data => {
