@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace ExchangeRateServiceClient
 {
-    interface IExchangeRatesProvider
+    public interface IExchangeRatesProvider
     {
         Task<RatesResponse> GetRates(string baseCurrency);
     }

@@ -14,11 +14,11 @@ namespace AbcRoiCalculatorApp.Controllers
     [ApiController]
     public class RoiController : ControllerBase
     {
-        readonly RoiCalculator _roiCalculator;
         readonly IBusinessRules _roiConfiguration;
-        public RoiController(IBusinessRules roiConfiguration)
+        readonly IRoiCalculator _roiCalculator;
+        public RoiController(IBusinessRules roiConfiguration, IRoiCalculator roiCalculatorInstance)
         {
-            //_roiCalculator = roiCalculatorInstance;
+            _roiCalculator = roiCalculatorInstance;
             _roiConfiguration = roiConfiguration;
         }
         // GET: api/<RoiController>

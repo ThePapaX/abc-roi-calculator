@@ -18,6 +18,11 @@ namespace ExchangeRateServiceClient
             _channel = GrpcChannel.ForAddress(connectionString);
             _grpcClient = new ExchangeRatesProvider.ExchangeRatesProviderClient(_channel);
         }
+
+        ~ExchangeRateServiceClient()
+        {
+            _channel.ShutdownAsync().Wait();
+        }
         public async Task<RatesResponse> GetRates(string baseCurrency)
         {
             var grpcRequest = new RatesRequest() { BaseCurrency = baseCurrency };

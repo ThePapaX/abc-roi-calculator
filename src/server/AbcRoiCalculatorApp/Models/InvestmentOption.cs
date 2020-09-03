@@ -46,16 +46,16 @@ namespace AbcRoiCalculatorApp.Models
 
             //return null;
         }
-
-        public RoiResult CalculateRoiForAmount(double investmentAmount)
+        public RoiResult CalculateRoiForAmount(double investmentAmount) => CalculateRoiForAmount(investmentAmount, AllocatedProportion);
+        public RoiResult CalculateRoiForAmount(double investmentAmount, double allocatedProportion)
         {
-            if (AllocatedProportion < 0 || AllocatedProportion > 1)
+            if (allocatedProportion < 0 || allocatedProportion > 1)
             {
                 throw new InvalidOperationException();
             }
 
             var roi = new RoiResult();
-            var applicableRule = GetApplicableRule(AllocatedProportion);
+            var applicableRule = GetApplicableRule(allocatedProportion);
 
             if (applicableRule == null)
             {
