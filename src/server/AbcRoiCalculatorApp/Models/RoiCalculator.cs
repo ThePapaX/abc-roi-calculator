@@ -8,12 +8,12 @@ using System.Diagnostics;
 
 namespace AbcRoiCalculatorApp.Models
 {
-    public class RoiCalculator
+    public class RoiCalculator : IRoiCalculator
     {
-        readonly ExchangeRateServiceClient.ExchangeRateServiceClient _exchangeRateClient;
-        readonly RoiConfigurationOptions _roiConfiguration;
+        readonly IExchangeRatesProvider _exchangeRateClient;
+        readonly IBusinessRules _roiConfiguration;
 
-        public RoiCalculator(ExchangeRateServiceClient.ExchangeRateServiceClient exchangeRateServiceClient, RoiConfigurationOptions roiConfiguration)
+        public RoiCalculator(IExchangeRatesProvider exchangeRateServiceClient, IBusinessRules roiConfiguration)
         {
             _exchangeRateClient = exchangeRateServiceClient;
             _roiConfiguration = roiConfiguration;
@@ -35,7 +35,7 @@ namespace AbcRoiCalculatorApp.Models
             roi.Fees *= conversionRate;
         }
 
-        
+
         public async Task<RoiCalculationResult> Calculate(RoiCalculationRequest request)
         {
             var roi = new RoiCalculationResult()
@@ -48,17 +48,23 @@ namespace AbcRoiCalculatorApp.Models
             // Apply each rule to investment allocation and amount;
             request.InvestmentOptions.ForEach(option =>
             {
-                var optionRules = _roiConfiguration.InvestmentBusinessRules.Find(op=> op.Id == option.Id);
+                var investmentOptionInformation = _roiConfiguration.InvestmentBusinessRules.Find(op => op.Id == option.Id);
+                
+                if(investmentOptionInformation is null)
+                {
+                    throw new Exception("INVALID_OPTION");
+                }
 
                 var investmentAmountForOption = request.InvestmentAmount * option.AllocatedProportion;
 
-                var optionRoi = optionRules.CalculateRoiForAmount(investmentAmountForOption);
+                var optionRoi = investmentOptionInformation.CalculateRoiForAmount(investmentAmountForOption, option.AllocatedProportion);
 
                 roi.Total += optionRoi.Value;
                 roi.Fees += optionRoi.Fee;
-                
+
             });
-            try { 
+            try
+            {
                 await ConvertCurrency(roi, _roiConfiguration.BaseCurrency, _roiConfiguration.TargetCurrency);
             }
             catch (Exception ex)

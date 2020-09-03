@@ -1,4 +1,5 @@
 using AbcRoiCalculatorApp.Models;
+using ExchangeRateServiceClient;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -25,13 +26,16 @@ namespace AbcRoiCalculatorApp
         {
             services.AddControllersWithViews().AddNewtonsoftJson();
             services.AddSingleton<IBusinessRules>(br => {
-                var config = new RoiConfigurationOptions();
+                var config = new RoiBusinessRules();
                 
                 // We are using the Options Pattern (https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/options?view=aspnetcore-3.1)
-                Configuration.GetSection(RoiConfigurationOptions.RoiConfiguration).Bind(config);
+                Configuration.GetSection(RoiBusinessRules.RoiConfiguration).Bind(config);
 
                 return config;
             });
+
+            services.AddSingleton<IExchangeRatesProvider, ExchangeRateServiceClient.ExchangeRateServiceClient>();
+            services.AddScoped<IRoiCalculator, RoiCalculator>();
 
 
             // In production, the React files will be served from this directory
