@@ -1,7 +1,6 @@
 syntax = "proto3";
 
 option csharp_namespace = "ExchangeRatesService";
-import "google/protobuf/struct.proto";
 
 package exchange_rates_service;
 
