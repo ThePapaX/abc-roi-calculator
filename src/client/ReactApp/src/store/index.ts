@@ -2,7 +2,7 @@ import * as RoiCalculator from  './RoiCalculator';
 
 // The top-level state object
 export interface ApplicationState {
-    roiCalculator : RoiCalculator.RoiCalculatorState | undefined;
+    roiCalculator : RoiCalculator.RoiCalculatorState;
 }
 
 // Whenever an action is dispatched, Redux will update each top-level application state property using

@@ -1,6 +1,7 @@
 import { Action, Reducer, ActionCreatorsMapObject } from 'redux';
 import { AppThunkAction } from './';
 import { InvestmentOptionRowValidationState } from '../components/InvestmentOptionRow';
+import validate from '../utilities/investmentValidator';
 
 // -----------------
 // STATE - This defines the type of data maintained in the Redux store.
@@ -57,7 +58,7 @@ export interface rowValidationDictionary { [groupId: number]: InvestmentOptionRo
 export interface ValidationState {
     isValid : boolean,
     hasValidated : boolean,
-    errors : Array<ValidationError>,
+    errors? : Array<ValidationError>,
     rowsValidation: rowValidationDictionary
 }
 
@@ -80,14 +81,7 @@ const defaultState : RoiCalculatorState = {
         isValid : false, 
         hasValidated : false,
         errors : [],
-        rowsValidation : { 1 : { 
-            option : { isValid : false, message : 'this is invalid'},
-            allocation : { isValid : false, message: 'invalid allocation'}
-        },
-        3 : { 
-            option : { isValid : false, message : 'this is invalid'},
-            allocation : { isValid : true, message: 'invalid allocation'}
-        }}
+        rowsValidation : {}
     },
     investmentRowsState : {
         rowCount : 5,
@@ -154,6 +148,9 @@ export interface InvestmentAmountChangedAction {
     investmentAmount : number
 }
 
+export interface RoiCalculationRequestedAction {
+    type : 'ROI_CALCULATION_REQUESTED',
+}
 
 /*
 onOptionSelected={(groupId: number, value: any)=>{ console.warn('OPTION_SELECTED on group:', groupId, 'value:', value)}}
@@ -163,7 +160,7 @@ onOptionSelected={(groupId: number, value: any)=>{ console.warn('OPTION_SELECTED
 */
 // Declare a 'discriminated union' type. This guarantees that all references to 'type' properties contain one of the
 // declared type strings (and not any other arbitrary string).
-export type KnownAction = ChangeTabAction | InvestmentAmountChangedAction | RequestRoiCalculationAction | ReceiveRoiCalculationAction | RequestInvestmentOptionsAction | ReceiveInvestmentOptionsAction | InvestmentOptionRowAddedAction | InvestmentOptionRowRemovedAction |  InvestmentOptionSelectedAction | InvestmentOptionAllocationChangedAction;
+export type KnownAction = RoiCalculationRequestedAction | ChangeTabAction | InvestmentAmountChangedAction | RequestRoiCalculationAction | ReceiveRoiCalculationAction | RequestInvestmentOptionsAction | ReceiveInvestmentOptionsAction | InvestmentOptionRowAddedAction | InvestmentOptionRowRemovedAction |  InvestmentOptionSelectedAction | InvestmentOptionAllocationChangedAction;
 
 // ----------------
 // ACTION CREATORS - These are functions exposed to UI components that will trigger a state transition.
@@ -176,6 +173,17 @@ export const actionCreators = {
     setInvestmentOption : (groupId : number, optionId : number)=> ({type : 'INVESTMENT_OPTION_SELECTED', groupId, optionId} as InvestmentOptionSelectedAction),
     setInvestmentAllocation : (groupId : number, allocation : number)=> ({type : 'INVESTMENT_OPTION_ALLOCATION_CHANGED', groupId, allocation} as InvestmentOptionAllocationChangedAction),
     setInvestmentAmount  : (investmentAmount : any)=> ({type :'INVESTMENT_AMOUNT_CHANGED', investmentAmount } as InvestmentAmountChangedAction),
+    
+    calculateRoi:  () : AppThunkAction<RoiCalculationRequestedAction>  => (dispath, getState)=>{
+        /**
+         * - Validate locally:
+         * - Dispatch validation result
+         * - ifValid then we proceed sending the request
+         **/
+        const {roiCalculator} = getState();
+        const validationResult = validate(roiCalculator);
+        
+    },
 
     
     requestInvestmentOptions: (): AppThunkAction<KnownAction> => (dispatch, getState) => {
