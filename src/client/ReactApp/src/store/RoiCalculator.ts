@@ -14,6 +14,8 @@ export interface InvestmentRowsState {
 }
 
 export interface RoiCalculatorState {
+    locale: string,
+    currency : string,
     investmentAmount : number,
     investedPercentage : number,
     currentTabIndex: number;
@@ -24,7 +26,7 @@ export interface RoiCalculatorState {
     isLoading : boolean;
     investmentRowsState : InvestmentRowsState;
     result : RoiCalculationResult,
-    shouldRecalculate? : boolean
+    shouldRecalculate? : boolean,
 }
 
 export interface InvestmentOption {
@@ -80,6 +82,8 @@ const getApplicableInvestments = (investmentAllocation : Array<InvestmentOptionG
 
 const defaultState : RoiCalculatorState = {
     currentTabIndex : 0,
+    locale : 'en-au',
+    currency : 'AUD',
     investmentAmount : 100000,
     investedPercentage: 0,
     tabs : ['Investment Options', 'ROI'],

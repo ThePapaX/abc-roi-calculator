@@ -44,7 +44,7 @@ class RoiCalculator extends React.PureComponent<RoiCalculatorProps> {
 
     private isValidInvestmentAmount = () => this.props.investmentAmount && this.props.investmentAmount > 0;
     private availableAmount = () => this.props.investmentAmount * (1 - this.props.investedPercentage / 100);
-    private currencyFormatter = new CurrencyFormatter('en-au', 'AUD');
+    private currencyFormatter = new CurrencyFormatter(this.props.locale, this.props.currency);
     private percentageFormatter = new PercentageFormatter();
 
     private renderInvestmentPanel() {
@@ -90,7 +90,7 @@ class RoiCalculator extends React.PureComponent<RoiCalculatorProps> {
         );
     }
     private renderRoiPanel() {
-        const currencyFormatter = new CurrencyFormatter('en-au', this.props.result.currency);
+        const currencyFormatter = new CurrencyFormatter(this.props.locale, this.props.result.currency);
 
         return (<Pane display="flex">
             <Pane flexGrow={2} float="left" margin={8}>
