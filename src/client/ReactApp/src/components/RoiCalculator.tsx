@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { ApplicationState } from '../store';
 import * as RoiCalculatorStore from '../store/RoiCalculator';
 
-import { Pane, Tablist, SidebarTab, Paragraph, Spinner, TextInputField, Badge, Text } from 'evergreen-ui'
+import { Pane, Tablist, SidebarTab, Paragraph, Spinner, TextInputField, Badge, Text, Button, CalculatorIcon, Alert } from 'evergreen-ui'
 import InvestmentOptionsList from './InvestmentOptionsList';
 
 type RoiCalculatorProps =
@@ -31,7 +31,7 @@ class RoiCalculator extends React.PureComponent<RoiCalculatorProps> {
     private availableAmount = () => this.props.investmentAmount * (1 - this.props.investedPercentage / 100)
 
     private renderInvestmentPanel() {
-        return (<React.Fragment>
+        return (<Pane>
             <TextInputField
             isInvalid={!this.isValidInvestmentAmount()}
             required
@@ -59,8 +59,16 @@ class RoiCalculator extends React.PureComponent<RoiCalculatorProps> {
             rowsValidation={this.props.validation.rowsValidation}
             
         />
-        
-        </React.Fragment>);
+        <Pane>
+            <Button appearance="primary" intent="none" iconAfter={CalculatorIcon} onClick={this.props.calculateRoi}>Calculate ROI</Button>
+        </Pane>
+        {this.props.validation.globalErrorMessage &&
+            <Pane marginTop={24}>
+                <Alert intent="danger" title={this.props.validation.globalErrorMessage} />
+            </Pane>
+        }
+        </Pane>
+        );
     }
     private renderRoiPanel(){
         return (<React.Fragment><Paragraph>ROI Panel</Paragraph></React.Fragment>)

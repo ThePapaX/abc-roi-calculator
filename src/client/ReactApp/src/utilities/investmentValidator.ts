@@ -3,11 +3,13 @@ import { InvestmentOptionRowValidationState } from '../components/InvestmentOpti
 
 
 const errorMessages = {
-    DUPLICATED_INVESTMENT_OPTION : 'Duplicated investment. Please adjust.',
-    INVALID_ALLOCATION_AMOUNT : 'Individual allocation must be between 0 - 100%',
+    DUPLICATED_INVESTMENT_OPTION : 'Duplicated investment. Please adjust',
+    EMPTY_INVESTMENT_OPTION : 'Please select an investment option',
+    INVALID_ALLOCATION_AMOUNT : 'Must be between 0 - 100%',
     OVERINVESTED : 'The total allocation is larger than the investment amount',
     UNDERINVESTED : 'You haven\'t invested 100%',
-    INVALID_VALUE : 'Invalid value'
+    INVALID_VALUE : 'Invalid value',
+    
 }
 
 class RowValidation implements InvestmentOptionRowValidationState{
@@ -23,13 +25,21 @@ class RowValidation implements InvestmentOptionRowValidationState{
 
  
 const validate = (state: RoiCalculatorState) : ValidationState => {
-    const duplicatedInvestmentsMap = {};
+    const duplicatedInvestmentsMap : {[id : number] : any} = {};
     
     const validationResult : ValidationState = {
         isValid : true,
         hasValidated : true,
+        globalErrorMessage : undefined,
         rowsValidation: {}
     }
+
+    // Invested amount must be 100%
+    if( state.investedPercentage !==100 ){
+        validationResult.isValid = false;
+        validationResult.globalErrorMessage = state.investedPercentage < 100 ? errorMessages.UNDERINVESTED : errorMessages.OVERINVESTED
+    }
+    
 
     state.investmentAllocation.forEach(investmentOption=>{
 
@@ -39,19 +49,37 @@ const validate = (state: RoiCalculatorState) : ValidationState => {
 
         const rowValidation = new RowValidation();
 
-        //Check duplication
+        // Check empty allocation
+        if(investmentOption.id > 0 && !investmentOption.allocatedProportion){
+            validationResult.isValid = false;
+            rowValidation.allocation.isValid = false;
+            rowValidation.allocation.message = errorMessages.INVALID_ALLOCATION_AMOUNT;
+        }
+
+        // Check duplication
         if(duplicatedInvestmentsMap.hasOwnProperty(investmentOption.id)){
             validationResult.isValid = false;
             rowValidation.option.isValid = false;
             rowValidation.option.message = errorMessages.DUPLICATED_INVESTMENT_OPTION
         }
 
-        //Check allocation
+        // Check missing option
+        if(investmentOption.allocatedProportion && investmentOption.id < 0){
+            validationResult.isValid = false;
+            rowValidation.option.isValid = false;
+            rowValidation.option.message = errorMessages.EMPTY_INVESTMENT_OPTION
+        }
+
+        // Check allocation
         if(investmentOption.allocatedProportion && (investmentOption.allocatedProportion > 100 || investmentOption.allocatedProportion < 0)){
             validationResult.isValid = false;
             rowValidation.allocation.isValid = false;
             rowValidation.allocation.message = errorMessages.INVALID_ALLOCATION_AMOUNT
         }
+
+
+        duplicatedInvestmentsMap[investmentOption.id]  = false; 
+        
 
         validationResult.rowsValidation[investmentOption.groupId] = rowValidation;
     })

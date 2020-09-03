@@ -58,6 +58,7 @@ export interface rowValidationDictionary { [groupId: number]: InvestmentOptionRo
 export interface ValidationState {
     isValid : boolean,
     hasValidated : boolean,
+    globalErrorMessage? : string,
     errors? : Array<ValidationError>,
     rowsValidation: rowValidationDictionary
 }
@@ -152,6 +153,10 @@ export interface RoiCalculationRequestedAction {
     type : 'ROI_CALCULATION_REQUESTED',
 }
 
+export interface ValidationFailedAction{
+    type : 'VALIDATION_FAILED',
+    validation : ValidationState,
+}
 /*
 onOptionSelected={(groupId: number, value: any)=>{ console.warn('OPTION_SELECTED on group:', groupId, 'value:', value)}}
             onOptionRemoved={(groupId: number, value: any)=>{ console.warn('ALLOCATION_CHANGE on group:', groupId, 'value:', value)}}
@@ -160,7 +165,7 @@ onOptionSelected={(groupId: number, value: any)=>{ console.warn('OPTION_SELECTED
 */
 // Declare a 'discriminated union' type. This guarantees that all references to 'type' properties contain one of the
 // declared type strings (and not any other arbitrary string).
-export type KnownAction = RoiCalculationRequestedAction | ChangeTabAction | InvestmentAmountChangedAction | RequestRoiCalculationAction | ReceiveRoiCalculationAction | RequestInvestmentOptionsAction | ReceiveInvestmentOptionsAction | InvestmentOptionRowAddedAction | InvestmentOptionRowRemovedAction |  InvestmentOptionSelectedAction | InvestmentOptionAllocationChangedAction;
+export type KnownAction = RoiCalculationRequestedAction | ValidationFailedAction | ChangeTabAction | InvestmentAmountChangedAction | RequestRoiCalculationAction | ReceiveRoiCalculationAction | RequestInvestmentOptionsAction | ReceiveInvestmentOptionsAction | InvestmentOptionRowAddedAction | InvestmentOptionRowRemovedAction |  InvestmentOptionSelectedAction | InvestmentOptionAllocationChangedAction;
 
 // ----------------
 // ACTION CREATORS - These are functions exposed to UI components that will trigger a state transition.
@@ -174,7 +179,9 @@ export const actionCreators = {
     setInvestmentAllocation : (groupId : number, allocation : number)=> ({type : 'INVESTMENT_OPTION_ALLOCATION_CHANGED', groupId, allocation} as InvestmentOptionAllocationChangedAction),
     setInvestmentAmount  : (investmentAmount : any)=> ({type :'INVESTMENT_AMOUNT_CHANGED', investmentAmount } as InvestmentAmountChangedAction),
     
-    calculateRoi:  () : AppThunkAction<RoiCalculationRequestedAction>  => (dispath, getState)=>{
+    calculateRoi:  () : AppThunkAction<KnownAction>  => (dispatch, getState)=>{
+
+        dispatch({ type: 'ROI_CALCULATION_REQUESTED' });
         /**
          * - Validate locally:
          * - Dispatch validation result
@@ -182,6 +189,12 @@ export const actionCreators = {
          **/
         const {roiCalculator} = getState();
         const validationResult = validate(roiCalculator);
+
+        if(!validationResult.isValid){
+            dispatch({ type: 'VALIDATION_FAILED', validation: validationResult });
+        }
+
+
         
     },
 
@@ -256,6 +269,10 @@ export const reducer: Reducer<RoiCalculatorState> = (state: RoiCalculatorState |
             return setInvestmentOptionForGroup(state, action.groupId, action.optionId);
         case 'INVESTMENT_OPTION_ALLOCATION_CHANGED' : 
             return setInvestmentAllocationForGroup(state, action.groupId, action.allocation);
+        case 'ROI_CALCULATION_REQUESTED' :
+            return { ...state, isLoading : true };
+        case 'VALIDATION_FAILED' : 
+            return { ...state, isLoading: false, validation : action.validation}
         default:
             return state;
     }
