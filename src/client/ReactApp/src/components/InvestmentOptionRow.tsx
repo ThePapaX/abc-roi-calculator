@@ -45,15 +45,16 @@ const InvestmentOptionRow: React.FC<InvestmentOptionRowProps> = (props => {
     return (
         <Pane display="flex">
             <Pane flexGrow={2} float="left" margin={8}>
-                <SelectField value={props.currentInvestmentOption && props.currentInvestmentOption.id} onChange={event => props.onOptionSelected(props.groupId, event.target.value)} {...optionValidationProps(props.validation)} width="100%" margin={0} >
+                <SelectField value={props.currentInvestmentOption && props.currentInvestmentOption.id} onChange={event => props.onOptionSelected(props.groupId, event.target.value)} {...optionValidationProps(props.validation)} width="100%" margin={0} label="" >
                     <option key={-1} value={-1} >--select--</option>
                     {props.investmentOptions.map((option) => (
-                        <option key={option.id} value={option.id} selected={props.currentInvestmentOption && props.currentInvestmentOption.id === option.id}>{option.name}</option>
+                        <option key={option.id} value={option.id}>{option.name}</option>
                     ))}
                 </SelectField>
             </Pane>
-            <Pane  float="left" margin={8}>
+            <Pane className={"percentage-input"} float="left" margin={8}>
                 <TextInputField margin={0} width={150}
+                    label="%"
                     type="number"
                     value={props.currentInvestmentOption && props.currentInvestmentOption.allocatedProportion}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => props.onAllocationChanged(props.groupId, event.target.value ? parseFloat(event.target.value) : '')}
@@ -61,7 +62,7 @@ const InvestmentOptionRow: React.FC<InvestmentOptionRowProps> = (props => {
                 />
             </Pane>
             <Pane float="left" margin={8}>
-                <FormField>
+                <FormField label="">
                 <IconButton icon={CrossIcon} onClick={()=> props.onRemove(props.groupId)} />
                 </FormField>
             </Pane>

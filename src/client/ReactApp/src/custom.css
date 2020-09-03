@@ -1,0 +1,13 @@
+.percentage-input label {
+    position: absolute;
+    top: 10px;
+    left: 8px;
+    font-size:12px;
+}
+.percentage-input input {
+    margin-top: 4px;
+    padding-left: 24px
+}
+.percentage-input {
+    position: relative;
+}

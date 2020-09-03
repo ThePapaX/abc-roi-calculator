@@ -2,6 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../store';
 import * as RoiCalculatorStore from '../store/RoiCalculator';
+import { CurrencyFormatter, PercentageFormatter } from '../utilities/numberFormaters';
 
 import { Pane, Tablist, SidebarTab, Paragraph, Spinner, TextInputField, Badge, Text, Button, CalculatorIcon, Alert } from 'evergreen-ui'
 import InvestmentOptionsList from './InvestmentOptionsList';
@@ -9,6 +10,21 @@ import InvestmentOptionsList from './InvestmentOptionsList';
 type RoiCalculatorProps =
     RoiCalculatorStore.RoiCalculatorState &
     typeof RoiCalculatorStore.actionCreators;
+
+
+const onlyNumber = () => {
+    return {
+        onKeyPress: (event: React.KeyboardEvent) => {
+            console.log(event.key, event.keyCode, event.which, parseInt(event.key), isNaN(parseFloat(event.key)))
+            if (isNaN(parseFloat(event.key))) {
+                event.preventDefault();
+                return false;
+            }
+
+            console.log('keydown acccepted');
+        }
+    }
+}
 
 class RoiCalculator extends React.PureComponent<RoiCalculatorProps> {
     public componentDidMount() {
@@ -25,10 +41,11 @@ class RoiCalculator extends React.PureComponent<RoiCalculatorProps> {
             <Spinner />
         </Pane>);
     }
-    private isValidInvestmentAmount(){
-        return this.props.investmentAmount && this.props.investmentAmount > 0
-    }
-    private availableAmount = () => this.props.investmentAmount * (1 - this.props.investedPercentage / 100)
+
+    private isValidInvestmentAmount = () => this.props.investmentAmount && this.props.investmentAmount > 0;
+    private availableAmount = () => this.props.investmentAmount * (1 - this.props.investedPercentage / 100);
+    private currencyFormatter = new CurrencyFormatter('en-au', 'AUD');
+    private percentageFormatter = new PercentageFormatter();
 
     private renderInvestmentPanel() {
         return (<Pane>
@@ -36,15 +53,17 @@ class RoiCalculator extends React.PureComponent<RoiCalculatorProps> {
             isInvalid={!this.isValidInvestmentAmount()}
             required
             label="Investment amount"
+            type="number"
             description="Total Investment in AUD."
-            type = "number"
             min={0}
+            // value = {this.currencyFormatter.format(this.props.investmentAmount)}
             value = {this.props.investmentAmount}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => this.props.setInvestmentAmount( event.target.value ? parseFloat(event.target.value) : '')}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => this.props.setInvestmentAmount(event.target.value ? parseFloat(event.target.value) : '')}
+    
             validationMessage={ !this.isValidInvestmentAmount() ? "This field is invalid" : null}
         />
         
-        <Badge style={{textTransform:'none', display: 'inline'}} color={this.availableAmount() >= 0 && !(!this.props.validation.hasValidated ===false && !this.props.validation.isValid)  ? 'neutral' : 'red'} padding={8}>Available Amount: {this.availableAmount()}</Badge>
+        <Badge style={{textTransform:'none', display: 'inline'}} color={this.availableAmount() >= 0 && !(!this.props.validation.hasValidated ===false && !this.props.validation.isValid)  ? 'neutral' : 'red'} padding={8}>Available Amount: {this.currencyFormatter.format(this.availableAmount())}</Badge>
         {this.props.validation.globalErrorMessage && this.props.validation.hasValidated &&
             <Pane marginTop={24}>
                 <Alert intent="danger" title={this.props.validation.globalErrorMessage} />
@@ -70,26 +89,26 @@ class RoiCalculator extends React.PureComponent<RoiCalculatorProps> {
         </Pane>
         );
     }
-    private renderRoiPanel(){
+    private renderRoiPanel() {
+        const currencyFormatter = new CurrencyFormatter('en-au', this.props.result.currency);
+
         return (<Pane display="flex">
-        <Pane flexGrow={2} float="left" margin={8}>
-        <TextInputField margin={0}
-                label="Projected return in 1 year" 
-                type="number"
-                value={this.props.result && this.props.result.total}
-                disabled
-            />
-        </Pane>
-        <Pane  float="left" margin={8}>
-        <TextInputField margin={0}
-                label="Total fees" 
-                type="number"
-                value={this.props.result && this.props.result.fees}
-                disabled
-            />
-        </Pane>
-        
-    </Pane>)
+            <Pane flexGrow={2} float="left" margin={8}>
+                <TextInputField margin={0}
+                    label="Projected return in 1 year"
+                    value={currencyFormatter.format(this.props.result.total)}
+                    disabled
+                />
+            </Pane>
+            <Pane float="left" margin={8}>
+                <TextInputField margin={0}
+                    label="Total fees"
+                    value={currencyFormatter.format(this.props.result.fees)}
+                    disabled
+                />
+            </Pane>
+
+        </Pane>)
     }
 
     public render() {
