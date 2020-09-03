@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace AbcRoiCalculatorApp.Models
 {
-    public class RoiConfigurationOptions : IBusinessRules
+    public class RoiBusinessRules : IBusinessRules
     {
         public const string RoiConfiguration = "RoiConfiguration";
         public List<InvestmentOption> InvestmentBusinessRules { get; set; }
@@ -13,7 +13,7 @@ namespace AbcRoiCalculatorApp.Models
         public string BaseCurrency { get; set; }
         public string TargetCurrency { get; set; }
 
-        public RoiConfigurationOptions()
+        public RoiBusinessRules()
         {
             InvestmentBusinessRules = new List<InvestmentOption>();
         }
