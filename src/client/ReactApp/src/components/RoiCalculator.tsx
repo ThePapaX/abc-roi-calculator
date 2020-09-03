@@ -55,6 +55,8 @@ class RoiCalculator extends React.PureComponent<RoiCalculatorProps> {
             onOptionRemoved={this.props.removeInvestmentOption}
             onOptionAdded={this.props.addInvestmentOption}
             onAllocationChanged={this.props.setInvestmentAllocation}
+
+            rowsValidation={this.props.validation.rowsValidation}
             
         />
         

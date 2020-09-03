@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { InvestmentOption, InvestmentOptionGroup, InvestmentRowsState } from '../store/RoiCalculator';
+import { InvestmentOption, InvestmentOptionGroup, InvestmentRowsState, rowValidationDictionary } from '../store/RoiCalculator';
 
 import { Pane, TextInputField, Select, Badge, Text, Heading, IconButton, CrossIcon, PlusIcon, Button } from 'evergreen-ui';
 import InvestmentOptionRow from './InvestmentOptionRow';
@@ -9,6 +9,7 @@ type RowEvent = (groupdId : number, value? : any) => any;
 
 export interface InvestmentOptionsListProps {
     investmentRowsState : InvestmentRowsState,
+    rowsValidation? : rowValidationDictionary,
 
     investmentOptions: Array<InvestmentOption>,
     investmentAllocation: Array<InvestmentOptionGroup>,
@@ -55,6 +56,7 @@ const InvestmentOptionsList: React.FC<InvestmentOptionsListProps> = (props => {
                     onAllocationChanged={(groupId: number, value: number) => { props.onAllocationChanged(groupId, value) }}
                     currentInvestmentOption = {investmentOption}
                     onRemove={onOptionRemovedDispatcher}
+                    validation={props.rowsValidation && props.rowsValidation[investmentOption.groupId]}
                 />
             )
         )}

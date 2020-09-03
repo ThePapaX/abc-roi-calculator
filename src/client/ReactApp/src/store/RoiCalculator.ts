@@ -1,6 +1,6 @@
 import { Action, Reducer, ActionCreatorsMapObject } from 'redux';
 import { AppThunkAction } from './';
-import { InvestmentOptionRowProps } from '../components/InvestmentOptionRow';
+import { InvestmentOptionRowValidationState } from '../components/InvestmentOptionRow';
 
 // -----------------
 // STATE - This defines the type of data maintained in the Redux store.
@@ -52,11 +52,13 @@ export interface ValidationError{
     property : string,
     message : string
 }
+export interface rowValidationDictionary { [groupId: number]: InvestmentOptionRowValidationState }
 
 export interface ValidationState {
     isValid : boolean,
     hasValidated : boolean,
-    errors : Array<ValidationError>
+    errors : Array<ValidationError>,
+    rowsValidation: rowValidationDictionary
 }
 
 const defaultInvestmentAllocationRows = (): Array<InvestmentOptionGroup> => {
@@ -77,7 +79,15 @@ const defaultState : RoiCalculatorState = {
     validation : { 
         isValid : false, 
         hasValidated : false,
-        errors : []
+        errors : [],
+        rowsValidation : { 1 : { 
+            option : { isValid : false, message : 'this is invalid'},
+            allocation : { isValid : false, message: 'invalid allocation'}
+        },
+        3 : { 
+            option : { isValid : false, message : 'this is invalid'},
+            allocation : { isValid : true, message: 'invalid allocation'}
+        }}
     },
     investmentRowsState : {
         rowCount : 5,
