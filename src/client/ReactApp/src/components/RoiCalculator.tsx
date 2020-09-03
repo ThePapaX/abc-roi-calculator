@@ -44,7 +44,12 @@ class RoiCalculator extends React.PureComponent<RoiCalculatorProps> {
             validationMessage={ !this.isValidInvestmentAmount() ? "This field is invalid" : null}
         />
         
-        <Badge style={{textTransform:'none', display: 'inline'}} color={this.availableAmount() >= 0 ? 'neutral' : 'red'} padding={8}>Available Amount: {this.availableAmount()}</Badge>
+        <Badge style={{textTransform:'none', display: 'inline'}} color={this.availableAmount() >= 0 && !(!this.props.validation.hasValidated ===false && !this.props.validation.isValid)  ? 'neutral' : 'red'} padding={8}>Available Amount: {this.availableAmount()}</Badge>
+        {this.props.validation.globalErrorMessage && this.props.validation.hasValidated &&
+            <Pane marginTop={24}>
+                <Alert intent="danger" title={this.props.validation.globalErrorMessage} />
+            </Pane>
+        }
         <InvestmentOptionsList 
             investmentOptions={this.props.investmentOptions} 
             investmentAllocation={this.props.investmentAllocation}
@@ -62,16 +67,29 @@ class RoiCalculator extends React.PureComponent<RoiCalculatorProps> {
         <Pane>
             <Button appearance="primary" intent="none" iconAfter={CalculatorIcon} onClick={this.props.calculateRoi}>Calculate ROI</Button>
         </Pane>
-        {this.props.validation.globalErrorMessage &&
-            <Pane marginTop={24}>
-                <Alert intent="danger" title={this.props.validation.globalErrorMessage} />
-            </Pane>
-        }
         </Pane>
         );
     }
     private renderRoiPanel(){
-        return (<React.Fragment><Paragraph>ROI Panel</Paragraph></React.Fragment>)
+        return (<Pane display="flex">
+        <Pane flexGrow={2} float="left" margin={8}>
+        <TextInputField margin={0}
+                label="Projected return in 1 year" 
+                type="number"
+                value={this.props.result && this.props.result.total}
+                disabled
+            />
+        </Pane>
+        <Pane  float="left" margin={8}>
+        <TextInputField margin={0}
+                label="Total fees" 
+                type="number"
+                value={this.props.result && this.props.result.fees}
+                disabled
+            />
+        </Pane>
+        
+    </Pane>)
     }
 
     public render() {
@@ -82,7 +100,7 @@ class RoiCalculator extends React.PureComponent<RoiCalculatorProps> {
                   <SidebarTab
                     key={tab}
                     id={tab}
-                    onSelect={() => this.props.changeTab(index)}
+                    onSelect={() => tab ==='ROI' ? this.props.calculateRoi() : this.props.changeTab(index)}
                     isSelected={index === this.props.currentTabIndex}
                     aria-controls={`panel-${tab}`}
                   >

@@ -3,7 +3,7 @@ import { InvestmentOptionRowValidationState } from '../components/InvestmentOpti
 
 
 const errorMessages = {
-    DUPLICATED_INVESTMENT_OPTION : 'Duplicated investment. Please adjust',
+    DUPLICATED_INVESTMENT_OPTION : 'This option is already selected',
     EMPTY_INVESTMENT_OPTION : 'Please select an investment option',
     INVALID_ALLOCATION_AMOUNT : 'Must be between 0 - 100%',
     OVERINVESTED : 'The total allocation is larger than the investment amount',
