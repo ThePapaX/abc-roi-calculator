@@ -43,10 +43,14 @@ class RoiCalculator extends React.PureComponent<RoiCalculatorProps> {
         <InvestmentOptionsList 
             investmentOptions={this.props.investmentOptions} 
             investmentAllocation={this.props.investmentAllocation}
-            onOptionSelected={(groupId: number, value: number)=>{ console.warn('OPTION_SELECTED on group:', groupId, 'value:', value)}}
-            onOptionRemoved={(groupId: number, value: number)=>{ console.warn('ALLOCATION_CHANGE on group:', groupId, 'value:', value)}}
-            onOptionAdded={()=>{}}
-                    
+            investmentRowsState = {this.props.investmentRowsState}
+            maxRowCount = {this.props.investmentOptions.length}
+
+            onOptionSelected={this.props.setInvestmentOption}
+            onOptionRemoved={this.props.removeInvestmentOption}
+            onOptionAdded={this.props.addInvestmentOption}
+            onAllocationChanged={this.props.setInvestmentAllocation}
+            
         />
         
         </React.Fragment>);

@@ -1,69 +1,60 @@
 import * as React from 'react';
-import { InvestmentOption, InvestmentOptionGroup } from '../store/RoiCalculator';
+import { InvestmentOption, InvestmentOptionGroup, InvestmentRowsState } from '../store/RoiCalculator';
 
 import { Pane, TextInputField, Select, Badge, Text, Heading, IconButton, CrossIcon, PlusIcon, Button } from 'evergreen-ui';
 import InvestmentOptionRow from './InvestmentOptionRow';
 
 
+type RowEvent = (groupdId : number, value? : any) => any;
+
 export interface InvestmentOptionsListProps {
+    investmentRowsState : InvestmentRowsState,
 
     investmentOptions: Array<InvestmentOption>,
-    investmentAllocation: Array<InvestmentOptionGroup>
+    investmentAllocation: Array<InvestmentOptionGroup>,
+    maxRowCount : number,
 
-    onOptionSelected: Function,
-    onOptionRemoved: Function,
-    onOptionAdded: Function
+    onOptionSelected: RowEvent,
+    onOptionRemoved: RowEvent,
+    onOptionAdded: RowEvent,
+    onAllocationChanged : RowEvent,
 };
-
-type RowToOptionMap =  {
-    groupId: number,
-    optionId: number | null,
-    allocation : number | null
-};
-
-
-const defaultRowToOptionMapState = (): Array<RowToOptionMap> => {
-    let rows = [];
-    for (let i = 0; i < 5; i++) {
-        rows.push({ groupId: i, optionId : null, allocation : null })
-    }
-    return rows;
-}
 
 const InvestmentOptionsList: React.FC<InvestmentOptionsListProps> = (props => {
-    const [rowToOptions, setRowToOptions] = React.useState(defaultRowToOptionMapState());
-    const [nextId, setNextId] = React.useState(5);
+    const [nextId, setNextId] = React.useState(10); //Just an internal variable to generate keys and groupId.
     const [disableAddOption, setDisableAddOption] = React.useState(false);
-    const minimunOptions = 1;
-    const maximumOptions = props.investmentOptions.length;
+    const minRowCount = 1;
+    
 
+    // Check everytime the number of rows changes to see if we need to disable Adding new rows.
     React.useEffect(() => {
-        setDisableAddOption(rowToOptions.length >= maximumOptions);
-    }, [rowToOptions.length]);
+        setDisableAddOption(props.investmentAllocation.length >= props.maxRowCount);
+    }, [props.investmentAllocation.length]);
 
     function addOption() {
-        const newOption: RowToOptionMap = { groupId: nextId, optionId: null, allocation : null };
-        const newState = [...rowToOptions, newOption];
-
-        setRowToOptions(newState);
+        props.onOptionAdded(nextId);
         setNextId(nextId+1);
     }
-
-    function removeOption(groupId: number) {
-        setRowToOptions(rowToOptions.filter(opt => opt.groupId !== groupId));
+    
+    // Minimum 1 row is controlled locally on this component.
+    function onOptionRemovedDispatcher(groupdId : number){
+        if(props.investmentAllocation.length > minRowCount){
+            props.onOptionRemoved(groupdId);
+        }
     }
 
     return (<Pane clearfix marginTop={24}>
         <Heading>Investment options:</Heading>
-        {rowToOptions.map(rowMap =>
+        {props.investmentAllocation.map(investmentOption =>
             (
                 <InvestmentOptionRow
-                    key={rowMap.groupId}
-                    groupId={rowMap.groupId}
+                    key={investmentOption.groupId}
+                    groupId={investmentOption.groupId}
                     investmentOptions={props.investmentOptions}
-                    onOptionSelected={(groupId: number, value: number) => { console.warn('OPTION_SELECTED on group:', groupId, 'value:', value) }}
-                    onAllocationChange={(groupId: number, value: number) => { console.warn('ALLOCATION_CHANGE on group:', groupId, 'value:', value) }}
-                    onRemove={removeOption}
+                    onOptionSelected={(groupId: number, value: number) => { props.onOptionSelected(groupId, value) }}
+                    onAllocationChanged={(groupId: number, value: number) => { props.onAllocationChanged(groupId, value) }}
+                    currentInvestmentOption = {investmentOption}
+                    onRemove={onOptionRemovedDispatcher}
                 />
             )
         )}
