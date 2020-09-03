@@ -225,7 +225,7 @@ export const actionCreators = {
         }
 
         //
-        fetch('https://localhost:44380/api/roi/calculate', {
+        fetch('/api/roi/calculate', {
             method: 'POST', 
             headers: {
                 'Content-Type': 'application/json'
@@ -245,7 +245,7 @@ export const actionCreators = {
         // Only load data if it's something we don't already have (and are not already loading)
         const appState = getState();
         if (appState && appState.roiCalculator && appState.roiCalculator.investmentOptions.length === 0) {
-            fetch(`https://localhost:44380/api/roi`)
+            fetch('/api/roi')
                 .then(response => response.json() as Promise<Array<InvestmentOption>>)
                 .then(data => {
                     dispatch({ type: 'RECEIVE_INVESTMENT_OPTIONS', investmentOptions : data });

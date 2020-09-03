@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -13,8 +13,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-
-
     <PackageReference Include="FluentValidation.AspNetCore" Version="9.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.7" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.7" />
@@ -26,19 +24,6 @@
     <Content Remove="$(SpaRoot)**" />
     <None Remove="$(SpaRoot)**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="$(SpaRoot).eslintrc.json" />
-    <None Include="$(SpaRoot).eslintrc.json" />
-    <None Include="$(SpaRoot)package-lock.json" />
-    <None Include="$(SpaRoot)package-lock.json" />
-    <None Include="$(SpaRoot)package.json" />
-    <None Include="$(SpaRoot)package.json" />
-    <None Include="$(SpaRoot)public\manifest.json" />
-    <None Include="$(SpaRoot)public\manifest.json" />
-    <None Include="$(SpaRoot)tsconfig.json" />
-    <None Include="$(SpaRoot)tsconfig.json" />
   </ItemGroup>
 
 
