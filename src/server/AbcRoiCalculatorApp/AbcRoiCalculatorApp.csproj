@@ -5,14 +5,18 @@
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
     <IsPackable>false</IsPackable>
-    <SpaRoot>ReactApp\</SpaRoot>
+    <SpaRoot>..\..\client\ReactApp\</SpaRoot>
     <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
+    <UserSecretsId>007294c6-1425-476d-9061-939b4579a70e</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..\..</DockerfileContext>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="FluentValidation.AspNetCore" Version="9.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.7" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.7" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,16 +27,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="ReactApp\.eslintrc.json" />
-    <None Include="ReactApp\.eslintrc.json" />
-    <None Include="ReactApp\package-lock.json" />
-    <None Include="ReactApp\package-lock.json" />
-    <None Include="ReactApp\package.json" />
-    <None Include="ReactApp\package.json" />
-    <None Include="ReactApp\public\manifest.json" />
-    <None Include="ReactApp\public\manifest.json" />
-    <None Include="ReactApp\tsconfig.json" />
-    <None Include="ReactApp\tsconfig.json" />
+    <None Include="$(SpaRoot).eslintrc.json" />
+    <None Include="$(SpaRoot).eslintrc.json" />
+    <None Include="$(SpaRoot)package-lock.json" />
+    <None Include="$(SpaRoot)package-lock.json" />
+    <None Include="$(SpaRoot)package.json" />
+    <None Include="$(SpaRoot)package.json" />
+    <None Include="$(SpaRoot)public\manifest.json" />
+    <None Include="$(SpaRoot)public\manifest.json" />
+    <None Include="$(SpaRoot)tsconfig.json" />
+    <None Include="$(SpaRoot)tsconfig.json" />
   </ItemGroup>
 
   <ItemGroup>
