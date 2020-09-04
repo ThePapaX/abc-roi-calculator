@@ -12,37 +12,12 @@ namespace AbcRoiCalculator.Test
 {
     class CurrencyConverterTests
     {
-        private const double _audUsdConversionRate = 0.75;
-        private const string _baseCurrency = "AUD";
-        private const string _targetCurrency = "USD";
-        private static IExchangeRatesProvider GetGrpcClientMock()
-        {
-            var mockFX = new Mock<IExchangeRatesProvider>();
-            mockFX.Setup(instance => instance.GetRates(It.IsAny<string>())).Returns(() =>
-            {
-                var ratesResponse = new RatesResponse()
-                {
-                    BaseCurrency = _baseCurrency,
-
-                };
-                var rates = new Dictionary<string, double>()
-                {
-                    { _targetCurrency , _audUsdConversionRate }
-                };
-                ratesResponse.Rates.Add(rates);
-
-                return Task.FromResult(ratesResponse);
-
-            });
-
-            return mockFX.Object;
-        }
 
         [Test]
         public void CanBeInstantiated()
         {
             // Arrange
-            var grpcClientMock = GetGrpcClientMock();
+            var grpcClientMock = TestMocks.GrpcClientMock();
 
             // Act
             var currencyConverter = new CurrencyConverter(grpcClientMock);
@@ -55,7 +30,7 @@ namespace AbcRoiCalculator.Test
         public async Task ConvertsCurrency()
         {
             // Arrange
-            var grpcClientMock = GetGrpcClientMock();
+            var grpcClientMock = TestMocks.GrpcClientMock();
 
             // Act
             var currencyConverter = new CurrencyConverter(grpcClientMock);
@@ -64,13 +39,13 @@ namespace AbcRoiCalculator.Test
             const double expectedTotalFees = 75;
 
             var roiResult = new RoiCalculationResult() {
-                Currency = _baseCurrency,
+                Currency = TestConstants.BaseCurrency,
                 Total = 1000,
                 Fees = 100,
             };
 
 
-            await currencyConverter.Convert(roiResult, _baseCurrency, _targetCurrency);
+            await currencyConverter.Convert(roiResult, TestConstants.BaseCurrency, TestConstants.TargetCurrency);
 
             // Assert
             Assert.AreEqual(roiResult.Total, expectedTotalRoi);
