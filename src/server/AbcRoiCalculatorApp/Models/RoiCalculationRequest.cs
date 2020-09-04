@@ -21,17 +21,17 @@ namespace AbcRoiCalculatorApp.Models
             var results = new List<ValidationResult>();
             if(InvestmentAmount < 0)
             {
-                yield return new ValidationResult($"The Investment amount is invalid", new[] { nameof(InvestmentAmount) });
+                yield return new ValidationResult(ValidationMessages.INVALID_INVESTMENT_AMOUNT, new[] { nameof(InvestmentAmount) });
             }
 
             if (InvestmentOptions == null || InvestmentOptions.Count < 0)
             {
-                yield return new ValidationResult($"There must be at least 1 investment option", new[] { nameof(InvestmentOptions) });
+                yield return new ValidationResult(ValidationMessages.INVESTMENT_OPTIONS_CANNOT_BE_EMPTY, new[] { nameof(InvestmentOptions) });
             }
             
             if(InvestmentOptions != null && InvestmentOptions.Sum(op => op.AllocatedProportion) != 1)
             {
-                yield return new ValidationResult($"Total investment allocation must equal 100%", new[] { nameof(InvestmentOptions) });
+                yield return new ValidationResult(ValidationMessages.TOTAL_INVESTMENT_ALLOCATION_MUST_BE_100_PERCENT, new[] { nameof(InvestmentOptions) });
             }
 
         }
