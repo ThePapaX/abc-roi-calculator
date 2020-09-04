@@ -29,7 +29,7 @@ This will launch the Exchange Rate GRPC service in port https://:50051 by defaul
 
 * Run the AbcRoiCalculator.API projeect:
 ```sh
-dotnet run --project ./src/server/\AbcRoiCalculatorApp/AbcRoiCalculatorApp.csproj
+dotnet run --project ./src/server/AbcRoiCalculatorApp/AbcRoiCalculatorApp.csproj
 ```
 This will launch the webApp in https://*:5001 and http://*:5000
 

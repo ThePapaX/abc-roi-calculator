@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../store';
-import * as RoiCalculatorStore from '../store/RoiCalculator';
+import * as RoiCalculatorStore from '../store/RoiCalculatorStore';
+import { RoiCalculatorState } from '../store/StoreDefs';
 import LoadingSpinner from './LoadingSpinner';
 import InvestmentOptionsPanel from './InvestmentOptionsPanel';
 import RoiResultPanel from './RoiResultPanel';
@@ -9,7 +10,7 @@ import RoiResultPanel from './RoiResultPanel';
 import { Pane, Tablist, SidebarTab } from 'evergreen-ui'
 
 export type RoiCalculatorProps =
-    RoiCalculatorStore.RoiCalculatorState &
+    RoiCalculatorState &
     typeof RoiCalculatorStore.actionCreators;
 
 class RoiCalculator extends React.PureComponent<RoiCalculatorProps> {

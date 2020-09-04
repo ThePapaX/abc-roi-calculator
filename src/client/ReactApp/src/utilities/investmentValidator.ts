@@ -1,4 +1,4 @@
-import { RoiCalculatorState, ValidationState, rowValidationDictionary, ValidationError } from '../store/RoiCalculator';
+import { RoiCalculatorState, ValidationState } from '../store/StoreDefs';
 import { InvestmentOptionRowValidationState } from '../components/InvestmentOptionRow';
 
 
@@ -44,7 +44,7 @@ const validate = (state: RoiCalculatorState) : ValidationState => {
     state.investmentAllocation.forEach(investmentOption=>{
 
         // An applicable investment is one that has either a selected option or an allocation value.
-        const isApplicable = investmentOption.id > 0 || investmentOption.allocatedProportion && investmentOption.allocatedProportion > 0;
+        const isApplicable = investmentOption.id > 0 || ( investmentOption.allocatedProportion && investmentOption.allocatedProportion > 0 );
         if(!isApplicable) return;
 
         const rowValidation = new RowValidation();
@@ -79,7 +79,6 @@ const validate = (state: RoiCalculatorState) : ValidationState => {
 
 
         duplicatedInvestmentsMap[investmentOption.id]  = false; 
-        
 
         validationResult.rowsValidation[investmentOption.groupId] = rowValidation;
     })

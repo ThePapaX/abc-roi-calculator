@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { InvestmentOption } from '../store/RoiCalculator';
+import { InvestmentOption } from '../store/StoreDefs';
 
-import { Pane, TextInputField, TextInput,FormField, Select, SelectField, Badge, Text, IconButton, CrossIcon } from 'evergreen-ui'
+import { Pane, TextInputField, FormField, SelectField, IconButton, CrossIcon } from 'evergreen-ui'
 
 export interface InputValidationState {
     isValid: boolean,
