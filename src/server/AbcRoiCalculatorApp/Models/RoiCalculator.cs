@@ -10,31 +10,14 @@ namespace AbcRoiCalculatorApp.Models
 {
     public class RoiCalculator : IRoiCalculator
     {
-        readonly IExchangeRatesProvider _exchangeRateClient;
+        readonly ICurrencyConverter _currencyConverter;
         readonly IBusinessRules _roiConfiguration;
 
-        public RoiCalculator(IExchangeRatesProvider exchangeRateServiceClient, IBusinessRules roiConfiguration)
+        public RoiCalculator(ICurrencyConverter currencyConverter, IBusinessRules roiConfiguration)
         {
-            _exchangeRateClient = exchangeRateServiceClient;
+            _currencyConverter = currencyConverter;
             _roiConfiguration = roiConfiguration;
         }
-
-        public async Task<double> GetConversionRate(string baseCurrency, string targetCurrency)
-        {
-            var ratesResponse = await _exchangeRateClient.GetRates(baseCurrency);
-            ratesResponse.Rates.TryGetValue(targetCurrency, out double conversionRate);
-
-            return conversionRate;
-        }
-
-        public async Task ConvertCurrency(RoiCalculationResult roi, string baseCurrency, string targetCurrency)
-        {
-            var conversionRate = await GetConversionRate(baseCurrency, targetCurrency);
-            roi.Currency = targetCurrency;
-            roi.Total *= conversionRate;
-            roi.Fees *= conversionRate;
-        }
-
 
         public async Task<RoiCalculationResult> Calculate(RoiCalculationRequest request)
         {
@@ -63,12 +46,14 @@ namespace AbcRoiCalculatorApp.Models
                 roi.Fees += optionRoi.Fee;
 
             });
+
             try
             {
-                await ConvertCurrency(roi, _roiConfiguration.BaseCurrency, _roiConfiguration.TargetCurrency);
+                await _currencyConverter.Convert(roi, _roiConfiguration.BaseCurrency, _roiConfiguration.TargetCurrency);
             }
             catch (Exception ex)
             {
+                // TODO: log this exception.
                 Debug.Write(ex);
                 // If something happens with the Fx rates service we just return in the same currency.
             }

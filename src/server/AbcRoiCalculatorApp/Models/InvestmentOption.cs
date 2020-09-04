@@ -35,16 +35,6 @@ namespace AbcRoiCalculatorApp.Models
         private InvestmentOptionRule GetApplicableRule(double investmentProportion)
         {
             return Rules.Find(rule => rule.IsApplicableForProportion(investmentProportion));
-
-            //foreach (KeyValuePair<double, InvestmentOptionRule> keyValuePair in Rules)
-            //{
-            //    if (keyValuePair.Value.IsApplicableForProportion(investmentProportion))
-            //    {
-            //        return keyValuePair.Value;
-            //    }
-            //}
-
-            //return null;
         }
         public RoiResult CalculateRoiForAmount(double investmentAmount) => CalculateRoiForAmount(investmentAmount, AllocatedProportion);
         public RoiResult CalculateRoiForAmount(double investmentAmount, double allocatedProportion)

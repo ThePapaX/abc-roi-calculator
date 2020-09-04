@@ -21,13 +21,13 @@ namespace AbcRoiCalculatorApp
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews().AddNewtonsoftJson();
+
+            // We only need one instance for the business rules.
             services.AddSingleton<IBusinessRules>(br => {
                 var config = new RoiBusinessRules();
-                
                 // We are using the Options Pattern (https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/options?view=aspnetcore-3.1)
                 Configuration.GetSection(RoiBusinessRules.RoiConfiguration).Bind(config);
 
@@ -35,6 +35,8 @@ namespace AbcRoiCalculatorApp
             });
 
             services.AddSingleton<IExchangeRatesProvider, ExchangeRateServiceClient.ExchangeRateServiceClient>();
+
+            services.AddScoped<ICurrencyConverter, CurrencyConverter>();
             services.AddScoped<IRoiCalculator, RoiCalculator>();
 
 
