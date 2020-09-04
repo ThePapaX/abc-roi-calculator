@@ -35,6 +35,40 @@ This will launch the webApp in https://*:5001 and http://*:5000
 
 Visit your browser: https://localhost:5001
 
+## Configuration:
+* All the business rules are configured in the AbcRoiCalculatorApp project. appsettings.json
+```json
+{
+  "RoiConfiguration": {
+    "BaseCurrency": "AUD",
+    "TargetCurrency": "USD",
+    "BaseFee": 250,
+    "InvestmentBusinessRules": [
+      {
+        "Id": 1,
+        "Name": "Cash investments",
+        "Rules": [
+          {
+            "From": 0,
+            "To": 0.5,
+            "Roi": 0.085,
+            "Fee": 0.005
+          },
+          {
+            "From": 0.5,
+            "To": 1,
+            "Roi": 0.1,
+            "Fee": 0
+          }
+        ]
+      }, 
+      ....
+    ]
+  }
+}
+```
+* On load the client will send an API request to /api/roi to read these settings and business investments options available.
+
 #Notes:
 - The application can run without the exchange rate service.
 - If the exchange rate service is not running the result will be shown in AUD.
