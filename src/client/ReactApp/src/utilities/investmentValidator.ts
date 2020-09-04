@@ -39,7 +39,11 @@ const validate = (state: RoiCalculatorState) : ValidationState => {
         validationResult.isValid = false;
         validationResult.globalErrorMessage = state.investedPercentage < 100 ? errorMessages.UNDERINVESTED : errorMessages.OVERINVESTED
     }
-    
+
+    // Investment amount must be positive
+    if( state.investmentAmount <= 0 ){
+        validationResult.isValid = false;
+    }
 
     state.investmentAllocation.forEach(investmentOption=>{
 
