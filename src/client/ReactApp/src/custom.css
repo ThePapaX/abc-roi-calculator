@@ -15,7 +15,7 @@
     color: rgb(66, 90, 112) !important;
 }
 
-@media ( max-width: 480px){
+@media ( max-width: 750px){
     #root > .ub-mt_32px {
         margin: 16px;
     }
