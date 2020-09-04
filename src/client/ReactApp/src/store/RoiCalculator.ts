@@ -254,48 +254,6 @@ export const actionCreators = {
         // Only load data if it's something we don't already have (and are not already loading)
         const appState = getState();
         if (appState && appState.roiCalculator && appState.roiCalculator.investmentOptions.length === 0) {
-            const data= [
-                {
-                    "id": 1,
-                    "name": "Cash investments"
-                },
-                {
-                    "id": 3,
-                    "name": "Fixed Interest"
-                },
-                {
-                    "id": 4,
-                    "name": "Shares"
-                },
-                {
-                    "id": 5,
-                    "name": "Managed Funds"
-                },
-                {
-                    "id": 6,
-                    "name": "Exchange traded funds"
-                },
-                {
-                    "id": 7,
-                    "name": "Investment bonds"
-                },
-                {
-                    "id": 8,
-                    "name": "Annuities"
-                },
-                {
-                    "id": 9,
-                    "name": "Listed Companies (LICs)"
-                },
-                {
-                    "id": 10,
-                    "name": "Real estate investment trusts"
-                }
-            ];
-            dispatch({ type: 'REQUEST_INVESTMENT_OPTIONS' });
-            dispatch({ type: 'RECEIVE_INVESTMENT_OPTIONS', investmentOptions : data });
-            return;
-
             fetch('/api/roi')
                 .then(response => response.json() as Promise<Array<InvestmentOption>>)
                 .then(data => {
