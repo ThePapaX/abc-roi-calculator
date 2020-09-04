@@ -41,8 +41,11 @@ Visit your browser: https://localhost:5001
 - This means that if you want to debug the app, you can run just the AbcRoiCalculatorApp project in debug mode.
 
 ## Arquitecture notes:
--- <WIP>
--- 
+-- We took a microservice aproach. The original intention is to run each project component as a containerized application (There is no docker compose file though as of writing this documentation, but will be provided). 
+-- The UI can be served directly behind a webServer (nginx, iisexpress, kestrel), and the api can be proxied. But,
+-- The AbcRoiCalculatorApp, was originally intended to be just a API project AbcRoiCalculator.API, but for simplicity purposes I've added the SPA services to serve the UI as well.
+-- GRPC is used for services communication, and we use protobuffers as message exchange format.
+-- The exchange service is loosely coupled with the app, and the app can function without any exchange rate service provider. The currency of the calculation is always returned in the result response.
 
 ## Design notes:
 -- <WIP>
