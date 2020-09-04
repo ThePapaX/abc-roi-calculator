@@ -39,7 +39,6 @@ const allocationValidationProps  = (validation? : InvestmentOptionRowValidationS
     }
 }
 
-
 const InvestmentOptionRow: React.FC<InvestmentOptionRowProps> = (props => {
 
     return (
