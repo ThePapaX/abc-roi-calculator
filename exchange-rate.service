@@ -1,0 +1,19 @@
+[Unit]
+Description=ExchangeRateService
+
+[Service]
+WorkingDirectory=/home/ec2-user/roi-calculator/exchange-rate-service
+ExecStart=/usr/bin/dotnet /home/ec2-user/roi-calculator/exchange-rate-service/ExchangeRatesService.dll  --ursl=https://localhost:50051
+Restart=always
+# Restart service after 10 seconds if the dotnet service crashes:
+RestartSec=10
+KillSignal=SIGINT
+SyslogIdentifier=roi-exchange-rate-service
+User=ec2-user
+Environment=ASPNETCORE_ENVIRONMENT=Production
+
+[Install]
+WantedBy=multi-user.target
+
+
+ #/usr/bin/dotnet /home/ec2-user/ProjectTracker/WoWJobTracker.dll --launch-profile 'production-Kestrel' --server.urls "https://0.0.0.0:443;http://*:80

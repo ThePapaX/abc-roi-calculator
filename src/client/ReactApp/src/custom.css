@@ -11,3 +11,27 @@
 .percentage-input {
     position: relative;
 }
+#panel-ROI input:disabled {
+    color: rgb(66, 90, 112) !important;
+}
+
+@media ( max-width: 480px){
+    #root > .ub-mt_32px {
+        margin: 16px;
+    }
+    #root .main-pane.ub-pt_32px{
+        padding: 16px;
+    }
+    div[role="tablist"]{
+        flex-basis: unset;
+        margin-right: 0;
+        display: flex;
+        text-align: center;
+    }
+    #panel-ROI > .ub-dspl_flex, .main-pane > .ub-dspl_flex{
+        flex-direction: column;
+    }
+    .percentage-input .ub-w_150px {
+        width: 60px;
+    }
+}
