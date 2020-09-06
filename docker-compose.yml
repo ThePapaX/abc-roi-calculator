@@ -1,0 +1,30 @@
+version: '3.4'
+
+services:
+  abcroicalculator.ui:
+    image: ${DOCKER_REGISTRY-}abc-roi-calculator-ui
+    ports:
+        - "5001:443"
+        - "5000:80"
+    build:
+      context: .
+      dockerfile: src/client/AbcRoiCalculator.UI/Dockerfile
+
+  abcroicalculator.api:
+    image: ${DOCKER_REGISTRY-}abc-roi-calculator-api
+    ports:
+        - "6001:443"
+        - "6000:80"
+    build:
+      context: .
+      dockerfile: src/server/AbcRoiCalculatorApp/Dockerfile
+
+  exchangeratesservice:
+    image: ${DOCKER_REGISTRY-}exchange-rates-service
+    ports:
+        - "50051:443"
+        - "50000:80"
+    build:
+      context: .
+      dockerfile: src/server/ExchangeRatesService/Dockerfile
+

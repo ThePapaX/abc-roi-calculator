@@ -41,10 +41,10 @@ namespace AbcRoiCalculatorApp
 
 
             // In production, the React files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ReactApp/build";
-            });
+            //services.AddSpaStaticFiles(configuration =>
+            //{
+            //    configuration.RootPath = "ReactApp/build";
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -69,8 +69,8 @@ namespace AbcRoiCalculatorApp
             });
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseSpaStaticFiles();
+            //app.UseStaticFiles();
+            //app.UseSpaStaticFiles();
 
             app.UseRouting();
 
@@ -82,15 +82,15 @@ namespace AbcRoiCalculatorApp
             });
 
             //TODO: decouple the React application in a separate process.
-            app.UseSpa(spa =>
-            {
-                spa.Options.SourcePath = "..\\..\\client\\ReactApp";
+            //app.UseSpa(spa =>
+            //{
+            //    spa.Options.SourcePath = "..\\..\\client\\ReactApp";
 
-                if (env.IsDevelopment())
-                {
-                    spa.UseReactDevelopmentServer(npmScript: "start");
-                }
-            });
+            //    if (env.IsDevelopment())
+            //    {
+            //        spa.UseReactDevelopmentServer(npmScript: "start");
+            //    }
+            //});
         }
     }
 }

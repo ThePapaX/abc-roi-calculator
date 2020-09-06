@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AbcRoiCalculatorApp\AbcRoiCalculatorApp.csproj" />
+    <ProjectReference Include="..\AbcRoiCalculatorApp\AbcRoiCalculator.API.csproj" />
   </ItemGroup>
 
 </Project>
