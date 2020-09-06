@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExchangeRatesService", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExchangeRateServiceClient", "src\server\ExchangeRateServiceClient\ExchangeRateServiceClient.csproj", "{DF42C2E4-1112-4485-99F3-935C0F5336E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbcRoiCalculator.Test", "src\server\AbcRoiCalculator.Test\AbcRoiCalculator.Test.csproj", "{A16FB67C-B19A-47E7-BECE-DB7D473F04F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AbcRoiCalculator.Test", "src\server\AbcRoiCalculator.Test\AbcRoiCalculator.Test.csproj", "{A16FB67C-B19A-47E7-BECE-DB7D473F04F7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
