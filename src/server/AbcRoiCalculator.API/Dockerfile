@@ -7,7 +7,7 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["src/server/AbcRoiCalculatorApp/AbcRoiCalculator.API.csproj", "src/server/AbcRoiCalculator.API/"]
+COPY ["src/server/AbcRoiCalculator.API/AbcRoiCalculator.API.csproj", "src/server/AbcRoiCalculator.API/"]
 COPY ["src/server/ExchangeRateServiceClient/ExchangeRateServiceClient.csproj", "src/server/ExchangeRateServiceClient/"]
 RUN dotnet restore "src/server/AbcRoiCalculator.API/AbcRoiCalculator.API.csproj"
 COPY . .

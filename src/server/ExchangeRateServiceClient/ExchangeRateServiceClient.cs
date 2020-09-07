@@ -5,6 +5,7 @@ using System.Text;
 using ExchangeRatesService;
 using System.Threading.Tasks;
 using Grpc.Net.Client;
+using System.Net.Http;
 
 namespace ExchangeRateServiceClient
 {
@@ -12,10 +13,14 @@ namespace ExchangeRateServiceClient
     {
         private readonly GrpcChannel _channel;
         private readonly ExchangeRatesProvider.ExchangeRatesProviderClient _grpcClient;
-        public ExchangeRateServiceClient(string connectionString  = "https://localhost:50051")
+        public ExchangeRateServiceClient(string connectionString  = "https://exchange-rates-service")
         {
 
-            _channel = GrpcChannel.ForAddress(connectionString);
+        var httpHandler = new HttpClientHandler();
+        // Return `true` to allow certificates that are untrusted/invalid
+        httpHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+
+            _channel = GrpcChannel.ForAddress(connectionString, new GrpcChannelOptions { HttpHandler = httpHandler });
             _grpcClient = new ExchangeRatesProvider.ExchangeRatesProviderClient(_channel);
         }
 
