@@ -4,8 +4,8 @@ services:
   roi-calculator.ui:
     image: ${DOCKER_REGISTRY-}abc-roi-calculator-ui
     ports:
-        - "5001:443"
-        - "5000:80"
+        - "3001:443"
+        - "3000:80"
     build:
       context: .
       dockerfile: src/client/AbcRoiCalculator.UI/Dockerfile
@@ -15,8 +15,8 @@ services:
   roi-calculator.api:
     image: ${DOCKER_REGISTRY-}abc-roi-calculator-api
     ports:
-        - "6001:443"
-        - "6000:80"
+        - "5001:443"
+        - "5000:80"
     build:
       context: .
       dockerfile: src/server/AbcRoiCalculator.API/Dockerfile

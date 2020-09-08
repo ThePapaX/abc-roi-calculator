@@ -15,9 +15,9 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "AbcRoiCalculatorApp": {
+    "AbcRoiCalculator.API": {
       "commandName": "Project",
-      "launchBrowser": true,
+      "launchBrowser": false,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
@@ -28,7 +28,9 @@
       "launchBrowser": true,
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
       "publishAllPorts": true,
-      "useSSL": true
+      "useSSL": true,
+      "httpPort": 5000,
+      "sslPort": 5001
     }
   }
 }

@@ -21,14 +21,14 @@ namespace AbcRoiCalculatorApp.Controllers
             _roiCalculator = roiCalculatorInstance;
             _roiConfiguration = roiConfiguration;
         }
-        // GET: api/<RoiController>
+        // GET: api/roi
         [HttpGet]
         public IEnumerable<InvestmentOptionBase> GetOptions()
         {
             return _roiConfiguration.InvestmentBusinessRules;
         }
 
-        // POST api/<RoiController>
+        // POST api/roi/calculate
         [HttpPost("calculate")]
         public async Task<RoiCalculationResult> Calculate([FromBody] RoiCalculationRequest request)
         {
