@@ -1,13 +1,10 @@
 ﻿using AbcRoiCalculatorApp.Models;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AbcRoiCalculator.Test
 {
     [TestFixture]
-    class InvestmentOptionRuleTests
+    internal class InvestmentOptionRuleTests
     {
         [TestCase(0.1, 0.45)]
         [TestCase(0, 0)]
@@ -26,7 +23,6 @@ namespace AbcRoiCalculator.Test
 
             // Assert
             Assert.IsTrue(isApplicable);
-            
         }
 
         [TestCase(0, 0.66666)]
@@ -46,7 +42,6 @@ namespace AbcRoiCalculator.Test
 
             // Assert
             Assert.IsTrue(isApplicable);
-
         }
 
         [TestCase(0, 0, .5)]
@@ -67,8 +62,6 @@ namespace AbcRoiCalculator.Test
 
             // Assert
             Assert.IsFalse(isApplicable);
-
         }
-
     }
 }

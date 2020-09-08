@@ -1,13 +1,10 @@
-using System;
+using Grpc.Core;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Grpc.Core;
-using Microsoft.Extensions.Logging;
-using Google.Protobuf.WellKnownTypes;
 
 namespace ExchangeRatesService
 {
@@ -22,7 +19,6 @@ namespace ExchangeRatesService
     {
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly ILogger<ExchangeRatesService> _logger;
-
 
         public ExchangeRatesService(IHttpClientFactory httpClientFactory, ILogger<ExchangeRatesService> logger)
         {

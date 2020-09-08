@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
-using AbcRoiCalculatorApp.Models;
+﻿using AbcRoiCalculatorApp.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -14,13 +11,15 @@ namespace AbcRoiCalculatorApp.Controllers
     [ApiController]
     public class RoiController : ControllerBase
     {
-        readonly IBusinessRules _roiConfiguration;
-        readonly IRoiCalculator _roiCalculator;
+        private readonly IBusinessRules _roiConfiguration;
+        private readonly IRoiCalculator _roiCalculator;
+
         public RoiController(IBusinessRules roiConfiguration, IRoiCalculator roiCalculatorInstance)
         {
             _roiCalculator = roiCalculatorInstance;
             _roiConfiguration = roiConfiguration;
         }
+
         // GET: api/roi
         [HttpGet]
         public IEnumerable<InvestmentOptionBase> GetOptions()

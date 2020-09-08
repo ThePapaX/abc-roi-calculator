@@ -1,18 +1,11 @@
 ﻿using AbcRoiCalculatorApp.Models;
-using ExchangeRateServiceClient;
-using ExchangeRatesService;
-using Moq;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace AbcRoiCalculator.Test
 {
-    class CurrencyConverterTests
+    internal class CurrencyConverterTests
     {
-
         [Test]
         public void CanBeInstantiated()
         {
@@ -34,16 +27,16 @@ namespace AbcRoiCalculator.Test
 
             // Act
             var currencyConverter = new CurrencyConverter(grpcClientMock);
-            
+
             const double expectedTotalRoi = 750;
             const double expectedTotalFees = 75;
 
-            var roiResult = new RoiCalculationResult() {
+            var roiResult = new RoiCalculationResult()
+            {
                 Currency = TestConstants.BaseCurrency,
                 Total = 1000,
                 Fees = 100,
             };
-
 
             await currencyConverter.Convert(roiResult, TestConstants.BaseCurrency, TestConstants.TargetCurrency);
 

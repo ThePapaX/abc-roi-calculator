@@ -1,12 +1,7 @@
 ﻿using AbcRoiCalculatorApp.Models;
-using ExchangeRateServiceClient;
-using ExchangeRatesService;
-using Moq;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace AbcRoiCalculator.Test
@@ -14,7 +9,6 @@ namespace AbcRoiCalculator.Test
     [TestFixture]
     public class RoiCalculatorTest
     {
-
         public static IBusinessRules GetTestBusinessRules()
         {
             var businessRules = new RoiBusinessRules() { BaseCurrency = TestConstants.BaseCurrency, BaseFee = TestConstants.BaseFee, TargetCurrency = TestConstants.TargetCurrency };
@@ -76,7 +70,7 @@ namespace AbcRoiCalculator.Test
             var calculator = new RoiCalculator(currencyConverter, businessRules);
 
             // This is "House market"
-            var optionId = businessRules.InvestmentBusinessRules.First().Id; 
+            var optionId = businessRules.InvestmentBusinessRules.First().Id;
 
             // Invest 100% in the house market;
             var investionAllocation = new List<InvestmentOptionBase>()
@@ -94,7 +88,6 @@ namespace AbcRoiCalculator.Test
                 InvestmentOptions = investionAllocation
             };
 
-
             // Act
             var calculationResult = await calculator.Calculate(calculationRequest);
 
@@ -102,7 +95,7 @@ namespace AbcRoiCalculator.Test
             // We expect a 20% ROI and just the base FEE, becuase house market doesn't have fee.
             const double expectedRoi = investmentAmount * 0.2 * TestConstants.AudUsdConversionRate;
             const double expectedFees = TestConstants.BaseFee * TestConstants.AudUsdConversionRate;
-            
+
             Assert.AreEqual(calculationResult.Currency, TestConstants.TargetCurrency);
             Assert.AreEqual(calculationResult.Total, expectedRoi);
             Assert.AreEqual(calculationResult.Fees, expectedFees);

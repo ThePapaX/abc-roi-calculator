@@ -68,6 +68,5 @@ namespace AbcRoiCalculator.Test
             Assert.AreEqual(optionRoiResult.Value, expectedRoi);
             Assert.AreEqual(optionRoiResult.Fee, expectedFee);
         }
-
     }
 }

@@ -4,7 +4,6 @@ import { CurrencyFormatter } from '../utilities/numberFormaters';
 import InvestmentOptionsList from './InvestmentOptionsList';
 import { RoiCalculatorProps } from './RoiCalculator';
 
-
 const InvestmentOptionsPanel: React.FC<RoiCalculatorProps> = (props) => {
     const currencyFormatter = new CurrencyFormatter(props.locale, props.currency);
     const isValidInvestmentAmount = () => props.investmentAmount && props.investmentAmount > 0;
@@ -57,4 +56,3 @@ const InvestmentOptionsPanel: React.FC<RoiCalculatorProps> = (props) => {
 }
 
 export default InvestmentOptionsPanel;
-

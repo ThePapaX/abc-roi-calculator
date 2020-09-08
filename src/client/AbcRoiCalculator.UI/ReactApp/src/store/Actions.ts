@@ -5,9 +5,9 @@
 
 import { RoiCalculationRequest, RoiCalculationResult, InvestmentOption, ValidationState } from "./StoreDefs";
 
-export interface ChangeTabAction { 
+export interface ChangeTabAction {
     type: 'CHANGE_TAB';
-    tabIndex: number 
+    tabIndex: number
 }
 
 export interface RequestRoiCalculationAction {
@@ -30,49 +30,49 @@ export interface ReceiveInvestmentOptionsAction {
 }
 
 export interface InvestmentOptionRowAddedAction {
-    type : 'INVESTMENT_OPTION_ROW_ADDED',
-    groupId : number
+    type: 'INVESTMENT_OPTION_ROW_ADDED',
+    groupId: number
 }
 export interface InvestmentOptionRowRemovedAction {
-    type : 'INVESTMENT_OPTION_ROW_REMOVED',
-    groupId : number
+    type: 'INVESTMENT_OPTION_ROW_REMOVED',
+    groupId: number
 }
 
 export interface InvestmentOptionSelectedAction {
-    type : 'INVESTMENT_OPTION_SELECTED',
-    groupId : number,
-    optionId : number
+    type: 'INVESTMENT_OPTION_SELECTED',
+    groupId: number,
+    optionId: number
 }
 
 export interface InvestmentOptionAllocationChangedAction {
-    type : 'INVESTMENT_OPTION_ALLOCATION_CHANGED',
-    groupId : number,
-    allocation : number,
+    type: 'INVESTMENT_OPTION_ALLOCATION_CHANGED',
+    groupId: number,
+    allocation: number,
 }
 
 export interface InvestmentAmountChangedAction {
-    type : 'INVESTMENT_AMOUNT_CHANGED',
-    investmentAmount : number
+    type: 'INVESTMENT_AMOUNT_CHANGED',
+    investmentAmount: number
 }
 
 export interface RoiCalculationRequestedAction {
-    type : 'ROI_CALCULATION_REQUESTED',
+    type: 'ROI_CALCULATION_REQUESTED',
 }
 
 export interface RoiCalculationReceivedAction {
-    type : 'ROI_CALCULATION_RECEIVED',
-    result : RoiCalculationResult
+    type: 'ROI_CALCULATION_RECEIVED',
+    result: RoiCalculationResult
 }
 
-export interface ValidationFailedAction{
-    type : 'VALIDATION_FAILED',
-    validation : ValidationState,
+export interface ValidationFailedAction {
+    type: 'VALIDATION_FAILED',
+    validation: ValidationState,
 }
-export interface ValidationPassedAction{
-    type : 'VALIDATION_PASSED',
-    validation : ValidationState,
+export interface ValidationPassedAction {
+    type: 'VALIDATION_PASSED',
+    validation: ValidationState,
 }
 
 // Declare a 'discriminated union' type. This guarantees that all references to 'type' properties contain one of the
 // declared type strings (and not any other arbitrary string).
-export type KnownAction = RoiCalculationRequestedAction | RoiCalculationReceivedAction | ValidationFailedAction | ValidationPassedAction | ChangeTabAction | InvestmentAmountChangedAction | RequestRoiCalculationAction | ReceiveRoiCalculationAction | RequestInvestmentOptionsAction | ReceiveInvestmentOptionsAction | InvestmentOptionRowAddedAction | InvestmentOptionRowRemovedAction |  InvestmentOptionSelectedAction | InvestmentOptionAllocationChangedAction;
+export type KnownAction = RoiCalculationRequestedAction | RoiCalculationReceivedAction | ValidationFailedAction | ValidationPassedAction | ChangeTabAction | InvestmentAmountChangedAction | RequestRoiCalculationAction | ReceiveRoiCalculationAction | RequestInvestmentOptionsAction | ReceiveInvestmentOptionsAction | InvestmentOptionRowAddedAction | InvestmentOptionRowRemovedAction | InvestmentOptionSelectedAction | InvestmentOptionAllocationChangedAction;

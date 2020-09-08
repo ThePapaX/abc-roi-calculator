@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace AbcRoiCalculatorApp.Models
 {
@@ -9,10 +6,9 @@ namespace AbcRoiCalculatorApp.Models
     {
         public List<InvestmentOption> InvestmentBusinessRules { get; set; }
         public double BaseFee { get; set; }
-       
+
         public string BaseCurrency { get; set; }
 
         public string TargetCurrency { get; set; }
-
     }
 }

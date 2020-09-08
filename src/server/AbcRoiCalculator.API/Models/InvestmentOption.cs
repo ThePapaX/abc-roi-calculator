@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Security.Cryptography.Xml;
 
 namespace AbcRoiCalculatorApp.Models
 {
@@ -8,7 +7,7 @@ namespace AbcRoiCalculatorApp.Models
     {
         public List<InvestmentOptionRule> Rules { get; set; }
 
-        public InvestmentOption(InvestmentOptionBase investmentOption) : base(investmentOption.Id, investmentOption.Name,  investmentOption.AllocatedProportion)
+        public InvestmentOption(InvestmentOptionBase investmentOption) : base(investmentOption.Id, investmentOption.Name, investmentOption.AllocatedProportion)
         {
             // Conditions:
             // - The Rules do not overlap.
@@ -16,15 +15,17 @@ namespace AbcRoiCalculatorApp.Models
             // E.G if for any investment for the current option the Roi is 10% and Fee: .5%
             // It implies that there is a single rule with From=0, To=1, Roi=.1, Fee= 0.05
 
-
             // new InvestmentOptionRangeComparer()
             Rules = new List<InvestmentOptionRule>();
         }
+
         public InvestmentOption(int id, string name, double allocatedProportion) : base(id, name, allocatedProportion)
         {
             Rules = new List<InvestmentOptionRule>();
         }
-        public InvestmentOption() : base() {
+
+        public InvestmentOption() : base()
+        {
             Rules = new List<InvestmentOptionRule>();
         }
 
@@ -36,7 +37,9 @@ namespace AbcRoiCalculatorApp.Models
         {
             return Rules.Find(rule => rule.IsApplicableForProportion(investmentProportion));
         }
+
         public RoiResult CalculateRoiForAmount(double investmentAmount) => CalculateRoiForAmount(investmentAmount, AllocatedProportion);
+
         public RoiResult CalculateRoiForAmount(double investmentAmount, double allocatedProportion)
         {
             if (allocatedProportion < 0 || allocatedProportion > 1)

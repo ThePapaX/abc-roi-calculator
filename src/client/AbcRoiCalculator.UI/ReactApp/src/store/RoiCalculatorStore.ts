@@ -19,7 +19,6 @@ const getApplicableInvestments = (investmentAllocation: Array<InvestmentOptionGr
     investmentAllocation.filter(inv => inv.id > 0)
         .map(inv => ({ ...inv, allocatedProportion: (inv.allocatedProportion && inv.allocatedProportion / 100) }));
 
-
 const defaultState: RoiCalculatorState = {
     currentTabIndex: 0,
     locale: 'en-au',
@@ -61,7 +60,6 @@ export const actionCreators = {
     setInvestmentAmount: (investmentAmount: any) => ({ type: 'INVESTMENT_AMOUNT_CHANGED', investmentAmount } as InvestmentAmountChangedAction),
 
     calculateRoi: (): AppThunkAction<KnownAction> => (dispatch, getState) => {
-
         dispatch({ type: 'ROI_CALCULATION_REQUESTED' });
         /**
          * - Validate locally:
@@ -101,7 +99,6 @@ export const actionCreators = {
                 dispatch({ type: 'ROI_CALCULATION_RECEIVED', result })
             })
             .catch(e => console.error(e));
-
     },
 
     requestInvestmentOptions: (): AppThunkAction<KnownAction> => (dispatch, getState) => {
@@ -116,7 +113,6 @@ export const actionCreators = {
             dispatch({ type: 'REQUEST_INVESTMENT_OPTIONS' });
         }
     }
-
 };
 
 const addNewInvestmentOption = (state: RoiCalculatorState, groupId: number) => {
@@ -144,8 +140,6 @@ const setInvestmentAllocationForGroup = (state: RoiCalculatorState, groupId: num
     });
     return { ...state, investmentAllocation: currentInvestments, investedPercentage: investedPercentage, shouldRecalculate: true, validation: { ...state.validation, hasValidated: false } }
 }
-
-
 
 // ----------------
 // REDUCER - For a given state and action, returns the new state. To support time travel, this must not mutate the old state.

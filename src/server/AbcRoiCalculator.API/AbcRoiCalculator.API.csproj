@@ -5,7 +5,6 @@
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
     <IsPackable>false</IsPackable>
-    <SpaRoot>..\..\client\ReactApp\</SpaRoot>
     <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
     <UserSecretsId>007294c6-1425-476d-9061-939b4579a70e</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>

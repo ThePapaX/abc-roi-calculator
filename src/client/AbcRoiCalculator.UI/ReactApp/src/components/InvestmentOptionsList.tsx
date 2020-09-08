@@ -4,7 +4,6 @@ import { InvestmentOption, InvestmentOptionGroup, InvestmentRowsState, rowValida
 import { Pane, Heading, IconButton, PlusIcon } from 'evergreen-ui';
 import InvestmentOptionRow from './InvestmentOptionRow';
 
-
 type RowEvent = (groupdId: number, value?: any) => any;
 
 export interface InvestmentOptionsListProps {
@@ -25,7 +24,6 @@ const InvestmentOptionsList: React.FC<InvestmentOptionsListProps> = (props => {
     const [nextId, setNextId] = React.useState(10); //Just an internal variable to generate keys and groupId.
     const [disableAddOption, setDisableAddOption] = React.useState(false);
     const minRowCount = 1;
-
 
     // Check everytime the number of rows changes to see if we need to disable Adding new rows.
     React.useEffect(() => {
@@ -64,7 +62,6 @@ const InvestmentOptionsList: React.FC<InvestmentOptionsListProps> = (props => {
             <IconButton icon={<PlusIcon color="white" />} disabled={disableAddOption} appearance="primary" intent="none" onClick={addOption} />
         </Pane>
     </Pane>)
-
 })
 
 export default InvestmentOptionsList;

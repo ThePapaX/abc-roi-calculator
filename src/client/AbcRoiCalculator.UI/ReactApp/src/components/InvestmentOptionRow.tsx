@@ -14,7 +14,7 @@ export interface InvestmentOptionRowValidationState {
 }
 
 export interface InvestmentOptionRowProps {
-    groupId : number,
+    groupId: number,
     validation?: InvestmentOptionRowValidationState,
     investmentOptions: Array<InvestmentOption>,
     currentInvestmentOption?: InvestmentOption,
@@ -23,24 +23,23 @@ export interface InvestmentOptionRowProps {
     onAllocationChanged: Function
 };
 
-const optionValidationProps  = (validation? : InvestmentOptionRowValidationState)=>{
+const optionValidationProps = (validation?: InvestmentOptionRowValidationState) => {
     const isInvalid = validation && !validation.option.isValid;
     return {
         isInvalid,
-        validationMessage : isInvalid && validation && validation.option.message
+        validationMessage: isInvalid && validation && validation.option.message
     }
 }
 
-const allocationValidationProps  = (validation? : InvestmentOptionRowValidationState)=>{
+const allocationValidationProps = (validation?: InvestmentOptionRowValidationState) => {
     const isInvalid = validation && !validation.allocation.isValid;
     return {
         isInvalid,
-        validationMessage : isInvalid && validation && validation.allocation.message
+        validationMessage: isInvalid && validation && validation.allocation.message
     }
 }
 
 const InvestmentOptionRow: React.FC<InvestmentOptionRowProps> = (props => {
-
     return (
         <Pane display="flex">
             <Pane flexGrow={2} float="left" margin={8}>
@@ -62,7 +61,7 @@ const InvestmentOptionRow: React.FC<InvestmentOptionRowProps> = (props => {
             </Pane>
             <Pane float="left" margin={8}>
                 <FormField label="">
-                <IconButton icon={CrossIcon} onClick={()=> props.onRemove(props.groupId)} />
+                    <IconButton icon={CrossIcon} onClick={() => props.onRemove(props.groupId)} />
                 </FormField>
             </Pane>
         </Pane>

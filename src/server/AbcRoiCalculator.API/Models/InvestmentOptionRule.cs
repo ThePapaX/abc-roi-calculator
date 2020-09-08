@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Threading.Tasks;
 
 namespace AbcRoiCalculatorApp.Models
 {
@@ -13,6 +10,7 @@ namespace AbcRoiCalculatorApp.Models
         public double To { get; set; }
         public double Roi { get; set; }
         public double Fee { get; set; }
+
         public InvestmentOptionRule(double from, double to, double roi, double fee)
         {
             From = from;
@@ -20,9 +18,9 @@ namespace AbcRoiCalculatorApp.Models
             Roi = roi;
             Fee = fee;
         }
+
         public InvestmentOptionRule()
         {
-
         }
 
         /// <summary>method <c>IsApplicable</c> checks if the investment allocation is within this Rule's bounds.</summary>
@@ -37,9 +35,8 @@ namespace AbcRoiCalculatorApp.Models
         }
     }
 
-    class InvestmentOptionRangeComparer : IComparer<double>
+    internal class InvestmentOptionRangeComparer : IComparer<double>
     {
-
         // Using the upper bound "To" as the sorting value;
         public int Compare([AllowNull] InvestmentOptionRule x, [AllowNull] InvestmentOptionRule y)
         {

@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Polly;
 using Polly.Extensions.Http;
+using System;
+using System.Net.Http;
 
 namespace ExchangeRatesService
 {
@@ -21,8 +18,8 @@ namespace ExchangeRatesService
         {
             services.AddGrpc();
             services.AddHttpClient("ExchangeRateHttpClient").AddPolicyHandler(GetRetryPolicy());
-
         }
+
         private static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
         {
             return HttpPolicyExtensions

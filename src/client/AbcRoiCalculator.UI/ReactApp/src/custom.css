@@ -2,35 +2,42 @@
     position: absolute;
     top: 10px;
     left: 8px;
-    font-size:12px;
+    font-size: 12px;
 }
+
 .percentage-input input {
     margin-top: 4px;
     padding-left: 24px
 }
+
 .percentage-input {
     position: relative;
 }
+
 #panel-ROI input:disabled {
     color: rgb(66, 90, 112) !important;
 }
 
-@media ( max-width: 750px){
+@media ( max-width: 750px) {
     #root > .ub-mt_32px {
         margin: 16px;
     }
-    #root .main-pane.ub-pt_32px{
+
+    #root .main-pane.ub-pt_32px {
         padding: 16px;
     }
-    div[role="tablist"]{
+
+    div[role="tablist"] {
         flex-basis: unset;
         margin-right: 0;
         display: flex;
         text-align: center;
     }
-    #panel-ROI > .ub-dspl_flex, .main-pane > .ub-dspl_flex{
+
+    #panel-ROI > .ub-dspl_flex, .main-pane > .ub-dspl_flex {
         flex-direction: column;
     }
+
     .percentage-input .ub-w_150px {
         width: 70px;
     }

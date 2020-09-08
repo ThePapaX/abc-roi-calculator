@@ -2,8 +2,7 @@ import React from 'react';
 import { Pane, TextInputField } from 'evergreen-ui'
 import { CurrencyFormatter } from '../utilities/numberFormaters';
 
-
-const RoiResultPanel : React.FC<any> = (props)=> {
+const RoiResultPanel: React.FC<any> = (props) => {
     const currencyFormatter = new CurrencyFormatter(props.locale, props.result.currency);
 
     return (<Pane display="flex">

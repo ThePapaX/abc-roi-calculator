@@ -1,17 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ExchangeRateServiceClient;
+﻿using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace AbcRoiCalculatorApp.Models
 {
     public class RoiCalculator : IRoiCalculator
     {
-        readonly ICurrencyConverter _currencyConverter;
-        readonly IBusinessRules _roiConfiguration;
+        private readonly ICurrencyConverter _currencyConverter;
+        private readonly IBusinessRules _roiConfiguration;
 
         public RoiCalculator(ICurrencyConverter currencyConverter, IBusinessRules roiConfiguration)
         {
@@ -32,8 +28,8 @@ namespace AbcRoiCalculatorApp.Models
             request.InvestmentOptions.ForEach(option =>
             {
                 var investmentOptionInformation = _roiConfiguration.InvestmentBusinessRules.Find(op => op.Id == option.Id);
-                
-                if(investmentOptionInformation is null)
+
+                if (investmentOptionInformation is null)
                 {
                     throw new Exception("INVALID_OPTION");
                 }
@@ -44,7 +40,6 @@ namespace AbcRoiCalculatorApp.Models
 
                 roi.Total += optionRoi.Value;
                 roi.Fees += optionRoi.Fee;
-
             });
 
             try

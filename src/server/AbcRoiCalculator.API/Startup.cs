@@ -2,13 +2,9 @@ using AbcRoiCalculatorApp.Models;
 using ExchangeRateServiceClient;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Collections.Generic;
 
 namespace AbcRoiCalculatorApp
 {
@@ -26,7 +22,8 @@ namespace AbcRoiCalculatorApp
             services.AddControllersWithViews().AddNewtonsoftJson();
 
             // We only need one instance for the business rules.
-            services.AddSingleton<IBusinessRules>(br => {
+            services.AddSingleton<IBusinessRules>(br =>
+            {
                 var config = new RoiBusinessRules();
                 // We are using the Options Pattern (https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/options?view=aspnetcore-3.1)
                 Configuration.GetSection(RoiBusinessRules.RoiConfiguration).Bind(config);
@@ -38,7 +35,6 @@ namespace AbcRoiCalculatorApp
 
             services.AddScoped<ICurrencyConverter, CurrencyConverter>();
             services.AddScoped<IRoiCalculator, RoiCalculator>();
-
 
             // In production, the React files will be served from this directory
             //services.AddSpaStaticFiles(configuration =>

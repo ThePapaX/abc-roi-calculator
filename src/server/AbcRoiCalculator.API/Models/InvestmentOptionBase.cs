@@ -1,10 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Localization;
-
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AbcRoiCalculatorApp.Models
 {
@@ -13,16 +8,16 @@ namespace AbcRoiCalculatorApp.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public double AllocatedProportion { get; set; }
-        
+
         public InvestmentOptionBase(int id, string name, double allocatedProportion = 0)
         {
             Id = id;
             Name = name;
             AllocatedProportion = allocatedProportion;
         }
+
         public InvestmentOptionBase()
         {
-
         }
 
         public bool Equals([AllowNull] InvestmentOptionBase other) => this.Id == other?.Id;
@@ -37,10 +32,10 @@ namespace AbcRoiCalculatorApp.Models
             return base.GetHashCode();
         }
 
-        public static bool operator == (InvestmentOptionBase lhs, InvestmentOptionBase rhs) => lhs.Id == rhs.Id;
+        public static bool operator ==(InvestmentOptionBase lhs, InvestmentOptionBase rhs) => lhs.Id == rhs.Id;
+
         public static bool operator !=(InvestmentOptionBase lhs, InvestmentOptionBase rhs) => lhs.Id != rhs.Id;
 
         public bool ShouldSerializeAllocatedProportion() => false;
-
     }
 }
